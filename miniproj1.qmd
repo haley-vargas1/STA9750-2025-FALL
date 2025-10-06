@@ -1,0 +1,167 @@
+---
+title: "Mini-Project #01: Gourmet Cheeseburgers Across the Globe: Exploring the Most Popular Programming on Netflix"
+author: "Haley Vargas"
+date: today
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-depth: 3
+    toc-title: "📚 Contents"
+    smooth-scroll: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+# Acquiring the Data
+```{r}
+if(!dir.exists(file.path("data", "mp01"))){
+    dir.create(file.path("data", "mp01"), showWarnings=FALSE, recursive=TRUE)
+}
+
+GLOBAL_TOP_10_FILENAME <- file.path("data", "mp01", "global_top10_alltime.csv")
+
+if(!file.exists(GLOBAL_TOP_10_FILENAME)){
+    download.file("https://www.netflix.com/tudum/top10/data/all-weeks-global.tsv", 
+                  destfile=GLOBAL_TOP_10_FILENAME)
+}
+
+COUNTRY_TOP_10_FILENAME <- file.path("data", "mp01", "country_top10_alltime.csv")
+
+if(!file.exists(COUNTRY_TOP_10_FILENAME)){
+    download.file("https://www.netflix.com/tudum/top10/data/all-weeks-countries.tsv", 
+                  destfile=COUNTRY_TOP_10_FILENAME)
+}
+```
+
+# Data Import and Preparation
+```{r}
+if(!require("tidyverse")) install.packages("tidyverse")
+library(readr)
+library(dplyr)
+GLOBAL_TOP_10 <- read_tsv(GLOBAL_TOP_10_FILENAME)
+str(GLOBAL_TOP_10)
+glimpse(GLOBAL_TOP_10)
+```
+
+## Task 2: Data Cleaning
+```{r}
+GLOBAL_TOP_10 <- GLOBAL_TOP_10 |>
+  mutate(season_title = if_else(season_title == "N/A", NA_character_, season_title))
+```
+
+## Task 3: Data Import
+```{r}
+COUNTRY_TOP_10 <- read_tsv(COUNTRY_TOP_10_FILENAME, na = "N/A")
+glimpse(COUNTRY_TOP_10)
+view(COUNTRY_TOP_10)
+```
+
+# Initial Data Exploration
+```{r}
+library(DT)
+GLOBAL_TOP_10 |>
+  head(n = 20) |>
+  datatable(options = list(searching = FALSE, info = FALSE))
+```
+```{r}
+library(stringr)
+format_titles <- function(df) {
+  colnames(df) <- str_replace_all(colnames(df), "_", " ") |> str_to_title()
+  df
+}
+
+GLOBAL_TOP_10 |>
+  format_titles() |>
+  head(n = 20) |>
+  datatable(options = list(searching = FALSE, info = FALSE)) |>
+  formatRound(c('Weekly Hours Viewed', 'Weekly Views'))
+```
+```{r}
+GLOBAL_TOP_10 |>
+  select(-season_title) |>
+  format_titles() |>
+  head(n = 20) |>
+  datatable(options = list(searching = FALSE, info = FALSE)) |>
+  formatRound(c('Weekly Hours Viewed', 'Weekly Views'))
+```
+```{r}
+GLOBAL_TOP_10 |>
+  mutate(`runtime_(minutes)` = round(60 * runtime)) |>
+  select(-season_title, -runtime) |>
+  format_titles() |>
+  head(n = 20) |>
+  datatable(options = list(searching = FALSE, info = FALSE)) |>
+  formatRound(c('Weekly Hours Viewed', 'Weekly Views'))
+```
+## Task 4: Exploratory Questions
+
+### Question 1: How many different countries does Netflix operate in? (You can use the viewing history as a proxy for countries in which Netflix operates.)
+
+```{r}
+COUNTRY_TOP_10 |>
+  summarize("Number of different countries Netflix operates in" = n_distinct(country_name))
+```
+
+### Question 2: Which non-English-language film has spent the most cumulative weeks in the global top 10? How many weeks did it spend?
+
+```{r}
+top_film <- GLOBAL_TOP_10 |> filter(category == "Films (Non-English)") |> arrange(desc(cumulative_weeks_in_top_10)) |>  slice(1)
+print(top_film)
+top_film$cumulative_weeks_in_top_10
+top_film$show_title
+```
+
+### Question 3: What is the longest film (English or non-English) to have ever appeared in the Netflix global Top 10? How long is it in minutes?
+```{r}
+longest_film <- GLOBAL_TOP_10 |> filter(category %in% c("Films (English)", "Films (Non-English)")) |> arrange(desc(runtime)) |> slice(1)
+longest_film$show_title
+longest_film$runtime
+```
+
+### Question 4: For each of the four categories, what program has the most total hours of global viewership?
+```{r}
+top_programs <- GLOBAL_TOP_10 |>
+  group_by(category, show_title) |>                     # group by category and title
+  summarise(total_hours = sum(weekly_hours_viewed, na.rm = TRUE)) |>  # sum hours viewed
+  slice_max(order_by = total_hours, n = 1) %>%           # take top program per category
+  ungroup()
+print(top_programs)
+```
+
+### Question 5: Which TV show had the longest run in a country’s Top 10? How long was this run and in what country did it occur?
+```{r}
+longest_run <- COUNTRY_TOP_10 |> filter(category == "TV") |> arrange(desc(cumulative_weeks_in_top_10)) |>  slice(1)
+longest_run %>%
+  select(show_title, country_name, cumulative_weeks_in_top_10)
+```
+
+### Question 7:  What is the total viewership of the TV show Squid Game? Note that there are three seasons total and we are looking for the total number of hours watched across all seasons.
+
+```{r}
+squid_game_total <- GLOBAL_TOP_10 %>%
+  filter(show_title == "Squid Game") %>%
+  summarize(total_hours = sum(weekly_hours_viewed, na.rm = TRUE))
+print(squid_game_total)
+```
+
+### Question 8: The movie Red Notice has a runtime of 1 hour and 58 minutes. Approximately how many views did it receive in 2021? Note that Netflix does not provide the weekly_views values that far back in the past, but you can compute it yourself using the total view time and the runtime.
+```{r}
+library(lubridate)
+library(scales)
+
+# runtime in hours
+runtime_hours <- 118 / 60  # 118 minutes = 1.9666667 hours
+
+red_notice_hours_2021 <- GLOBAL_TOP_10 %>%
+  filter(show_title == "Red Notice", year(week) == 2021) %>%
+  summarize(total_hours = sum(weekly_hours_viewed, na.rm = TRUE)) %>%
+  pull(total_hours)
+
+approx_views_2021 <- red_notice_hours_2021 / runtime_hours
+print(approx_views_2021)
+```
+
+
