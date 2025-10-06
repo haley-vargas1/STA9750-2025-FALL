@@ -210,6 +210,41 @@ print(approx_views_2021)
 
 #### Answer: 
 ```{r}
+us_films <- COUNTRY_TOP_10 %>%
+  filter(category == "Films", country_iso2 == "US") %>%
+  group_by(show_title) %>%
+  mutate(hit_number_one = any(weekly_rank == 1, na.rm = TRUE)) %>%
+  ungroup()
+
+# Were in top 10, rose to #1
+late_risers_count <- us_films %>%
+  filter(hit_number_one) %>%
+  group_by(show_title) %>%
+  arrange(week) %>%
+  summarise(first_rank = first(weekly_rank), .groups = "drop") %>%
+  filter(first_rank > 1) %>%
+  nrow()
+
+# Most recent film
+most_recent_late_riser <- us_films %>%
+  filter(hit_number_one) %>%
+  group_by(show_title) %>%
+  arrange(week) %>%
+  mutate(first_week_at_1 = min(week[weekly_rank == 1], na.rm = TRUE)) %>%
+  summarise(
+    debut_week = first(week),
+    debut_rank = first(weekly_rank),
+    week_hit_1 = first(first_week_at_1),
+    .groups = "drop"
+  ) %>%
+  filter(debut_rank > 1) %>%
+  slice_max(debut_week, n = 1) %>%
+  pull(show_title)
+
+# Step 4: Print results
+cat("🎬 Number of US films that debuted below #1 but later reached #1:", late_risers_count, "\n")
+cat("📅 Most recent film to achieve this:", most_recent_late_riser, "\n")
+
 
 ```
 
