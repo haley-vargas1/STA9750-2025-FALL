@@ -13,8 +13,10 @@ website:
     
 format:
   html:
-    theme: sketchy
+    theme: minty
     toc: false
+    code-fold: true
+    code-summary: "Show the code"
 
 editor:
   mode: source
