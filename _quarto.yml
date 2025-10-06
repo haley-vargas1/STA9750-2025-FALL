@@ -8,6 +8,9 @@ website:
     Course Projects for STA 9750 at Baruch College
   site-url: "https://<haley-vargas1>.github.io/STA9750-2025-FALL/"
   navbar:
+    left:
+      - href: mp01.qmd
+        text: Mini Project 1
     background: primary
     search: false
     
