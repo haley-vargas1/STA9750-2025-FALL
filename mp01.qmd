@@ -15,11 +15,14 @@ execute:
   warning: false
   message: false
 ---
+
 # Acquiring the Data
+
 Firstly, we will need to acquire the data from [Netflix's Tudum Top 10](https://www.netflix.com/tudum/top10). Specifically, we will be analyzing two separate data files:
 
-* Global Top 10
-* Country-wide Top 10
+-   Global Top 10
+-   Country-wide Top 10
+
 ```{r}
 if(!dir.exists(file.path("data", "mp01"))){
     dir.create(file.path("data", "mp01"), showWarnings=FALSE, recursive=TRUE)
@@ -41,28 +44,36 @@ if(!file.exists(COUNTRY_TOP_10_FILENAME)){
 ```
 
 # Data Import and Preparation
+
 ```{r}
 if(!require("tidyverse")) install.packages("tidyverse")
 library(readr)
 library(dplyr)
 GLOBAL_TOP_10 <- read_tsv(GLOBAL_TOP_10_FILENAME)
 ```
+
 After utilizing the read_tsv function, we can use the str() and glimpse() functions to examine its structure:
+
 ```{r}
 str(GLOBAL_TOP_10)
 glimpse(GLOBAL_TOP_10)
 ```
+
 From these outputs we can see that the GLOBAL_TOP_10 dataframe consists of 9 columns and 8840 rows. It also describes the names of each column.
 
 ## Task 2: Data Cleaning
-If we notice carefully, we can see that when "season_title" is missing, R is reading these values as strings. To fix this, we will need to use the mutate command. 
+
+If we notice carefully, we can see that when "season_title" is missing, R is reading these values as strings. To fix this, we will need to use the mutate command.
+
 ```{r}
 GLOBAL_TOP_10 <- GLOBAL_TOP_10 |>
   mutate(season_title = if_else(season_title == "N/A", NA_character_, season_title))
 ```
 
 ## Task 3: Data Import
+
 Now we will do the same for COUNTRY_TOP_10:
+
 ```{r}
 COUNTRY_TOP_10 <- read_tsv(COUNTRY_TOP_10_FILENAME, na = "N/A")
 glimpse(COUNTRY_TOP_10)
@@ -70,13 +81,16 @@ view(COUNTRY_TOP_10)
 ```
 
 # Initial Data Exploration
-Now lets use the DT package to better visualize the data: 
+
+Now lets use the DT package to better visualize the data:
+
 ```{r}
 library(DT)
 GLOBAL_TOP_10 |>
   head(n = 20) |>
   datatable(options = list(searching = FALSE, info = FALSE))
 ```
+
 ```{r}
 library(stringr)
 format_titles <- function(df) {
@@ -90,6 +104,7 @@ GLOBAL_TOP_10 |>
   datatable(options = list(searching = FALSE, info = FALSE)) |>
   formatRound(c('Weekly Hours Viewed', 'Weekly Views'))
 ```
+
 ```{r}
 GLOBAL_TOP_10 |>
   select(-season_title) |>
@@ -98,6 +113,7 @@ GLOBAL_TOP_10 |>
   datatable(options = list(searching = FALSE, info = FALSE)) |>
   formatRound(c('Weekly Hours Viewed', 'Weekly Views'))
 ```
+
 ```{r}
 GLOBAL_TOP_10 |>
   mutate(`runtime_(minutes)` = round(60 * runtime)) |>
@@ -107,6 +123,7 @@ GLOBAL_TOP_10 |>
   datatable(options = list(searching = FALSE, info = FALSE)) |>
   formatRound(c('Weekly Hours Viewed', 'Weekly Views'))
 ```
+
 ## Task 4: Exploratory Questions
 
 ### Question 1: How many different countries does Netflix operate in? (You can use the viewing history as a proxy for countries in which Netflix operates.)
@@ -132,6 +149,7 @@ top_film$show_title
 ### Question 3: What is the longest film (English or non-English) to have ever appeared in the Netflix global Top 10? How long is it in minutes?
 
 #### Answer: *Pushpa 2: The Rule (Reloaded Version* is the longest film to ever appear in the Netflix global top 10, it is approximately 224 minutes long.
+
 ```{r}
 longest_film <- GLOBAL_TOP_10 |> filter(category %in% c("Films (English)", "Films (Non-English)")) |> arrange(desc(runtime)) |> slice(1)
 longest_film$show_title
@@ -140,6 +158,7 @@ round(longest_film_minutes)
 ```
 
 ### Question 4: For each of the four categories, what program has the most total hours of global viewership?
+
 ```{r}
 top_programs <- GLOBAL_TOP_10 |>
   group_by(category, show_title) |>                     # group by category and title
@@ -157,15 +176,18 @@ datatable(
 
 ### Question 5: Which TV show had the longest run in a country’s Top 10? How long was this run and in what country did it occur?
 
-#### Answer: *Money Heist* spent the longest run of 127 cumulative weeks in Pakistan. 
+#### Answer: *Money Heist* spent the longest run of 127 cumulative weeks in Pakistan.
+
 ```{r}
 longest_run <- COUNTRY_TOP_10 |> filter(category == "TV") |> arrange(desc(cumulative_weeks_in_top_10)) |>  slice(1)
 longest_run %>%
   select(show_title, country_name, cumulative_weeks_in_top_10)
 ```
+
 ### Question 6: Netflix provides over 200 weeks of service history for all but one country in our data set. Which country is this and when did Netflix cease operations in that country?
 
 #### Answer: Netflix ceased operations in **Russia** on February 27th, 2022.
+
 ```{r}
 COUNTRY_TOP_10 |>
   group_by(country_name) |>
@@ -177,7 +199,7 @@ COUNTRY_TOP_10 |>
   filter(total_weeks < 200)
 ```
 
-### Question 7:  What is the total viewership of the TV show Squid Game? Note that there are three seasons total and we are looking for the total number of hours watched across all seasons.
+### Question 7: What is the total viewership of the TV show Squid Game? Note that there are three seasons total and we are looking for the total number of hours watched across all seasons.
 
 #### Answer: The total viewership of *Squid Game* is 5,048,300,000 hours!
 
@@ -191,6 +213,7 @@ print(squid_game_total)
 ### Question 8: The movie Red Notice has a runtime of 1 hour and 58 minutes. Approximately how many views did it receive in 2021? Note that Netflix does not provide the weekly_views values that far back in the past, but you can compute it yourself using the total view time and the runtime.
 
 #### Answer: *Red Notice* received approximately 201,732,203 views in 2021.
+
 ```{r}
 library(lubridate)
 library(scales)
@@ -206,9 +229,11 @@ red_notice_hours_2021 <- GLOBAL_TOP_10 %>%
 approx_views_2021 <- red_notice_hours_2021 / runtime_hours
 print(approx_views_2021)
 ```
+
 ### Question 9: How many Films reached Number 1 in the US but did not originally debut there? What is the most recent film to pull this off?
 
-#### Answer: 
+#### Answer:
+
 ```{r}
 us_films <- COUNTRY_TOP_10 %>%
   filter(category == "Films", country_iso2 == "US") %>%
@@ -250,10 +275,31 @@ cat("📅 Most recent film to achieve this:", most_recent_late_riser, "\n")
 
 ### Question 10: Which TV show/season hit the top 10 in the most countries in its debut week? In how many countries did it chart?
 
-#### Answer:  
-```{r}
+#### Answer: *Emily in Paris: Season 2* hit the top 10 in 94 countries in its debut week.
 
+```{r}
+tv_debut_countries <- COUNTRY_TOP_10 |>
+  # 1. Focus only on TV content
+  filter(startsWith(category, "TV")) |>
+  
+  # 2. Find the debut week per show/season
+  group_by(show_title, season_title) |>
+  mutate(debut_week = min(week, na.rm = TRUE)) |>
+  ungroup() |>
+  
+  # 3. Keep only records from that debut week
+  filter(week == debut_week) |>
+  
+  # 4. Count how many unique countries it appeared in during debut week
+  group_by(show_title, season_title) |>
+  summarise(num_countries = n_distinct(country_name), .groups = "drop") |>
+  
+  # 5. Find the top result
+  slice_max(order_by = num_countries, n = 1)
+
+print(tv_debut_countries)
 ```
 
 # Press Release 1: Upcoming Season of Stranger Things
+
 wasn't able to get to it :(
