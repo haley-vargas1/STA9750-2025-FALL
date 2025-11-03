@@ -149,6 +149,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./mp01.html"> 
 <span class="menu-text">Mini Project 1</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./mp02.html" aria-current="page"> 
+<span class="menu-text">Mini Project 2</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -165,7 +169,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">📚 Contents</h2>
    
   <ul>
-  <li><a href="#task-1-data-import" id="toc-task-1-data-import" class="nav-link active" data-scroll-target="#task-1-data-import">Task 1 Data import</a></li>
+  <li><a href="#introduction-understanding-yimby-and-nimby-dynamics-in-u.s.-housing" id="toc-introduction-understanding-yimby-and-nimby-dynamics-in-u.s.-housing" class="nav-link active" data-scroll-target="#introduction-understanding-yimby-and-nimby-dynamics-in-u.s.-housing">🏗 Introduction: Understanding YIMBY and NIMBY Dynamics in U.S. Housing</a></li>
+  <li><a href="#data-acquisition" id="toc-data-acquisition" class="nav-link" data-scroll-target="#data-acquisition">Data Acquisition</a></li>
+  <li><a href="#task-1-data-import" id="toc-task-1-data-import" class="nav-link" data-scroll-target="#task-1-data-import">Task 1: Data Import</a></li>
+  <li><a href="#data-integration-and-initial-exploration" id="toc-data-integration-and-initial-exploration" class="nav-link" data-scroll-target="#data-integration-and-initial-exploration">Data Integration and Initial Exploration</a></li>
   <li><a href="#task-2-multi-table-questions" id="toc-task-2-multi-table-questions" class="nav-link" data-scroll-target="#task-2-multi-table-questions">Task 2: Multi-Table Questions</a>
   <ul class="collapse">
   <li><a href="#question-1-which-cbsa-by-name-permitted-the-largest-number-of-new-housing-units-in-the-decade-from-2010-to-2019-inclusive" id="toc-question-1-which-cbsa-by-name-permitted-the-largest-number-of-new-housing-units-in-the-decade-from-2010-to-2019-inclusive" class="nav-link" data-scroll-target="#question-1-which-cbsa-by-name-permitted-the-largest-number-of-new-housing-units-in-the-decade-from-2010-to-2019-inclusive">Question 1: Which CBSA (by name) permitted the largest number of new housing units in the decade from 2010 to 2019 (inclusive)?</a>
@@ -176,22 +183,41 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#answer-albuquerque-nm-cbsa-10740-permitted-the-most-new-housing-units-in-2013-with-a-total-of-2606-units." id="toc-answer-albuquerque-nm-cbsa-10740-permitted-the-most-new-housing-units-in-2013-with-a-total-of-2606-units." class="nav-link" data-scroll-target="#answer-albuquerque-nm-cbsa-10740-permitted-the-most-new-housing-units-in-2013-with-a-total-of-2606-units.">Answer: Albuquerque, NM (CBSA 10740) permitted the most new housing units in 2013, with a total of 2606 units.</a></li>
   </ul></li>
-  <li><a href="#question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015-to-answer-this-question-you-will-need-to-first-compute-the-total-income-per-cbsa-by-multiplying-the-average-household-income-by-the-number-of-households-and-then-sum-total-income-and-total-population-across-all-cbsas-in-a-state.-with-these-numbers-you-can-answer-this-question." id="toc-question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015-to-answer-this-question-you-will-need-to-first-compute-the-total-income-per-cbsa-by-multiplying-the-average-household-income-by-the-number-of-households-and-then-sum-total-income-and-total-population-across-all-cbsas-in-a-state.-with-these-numbers-you-can-answer-this-question." class="nav-link" data-scroll-target="#question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015-to-answer-this-question-you-will-need-to-first-compute-the-total-income-per-cbsa-by-multiplying-the-average-household-income-by-the-number-of-households-and-then-sum-total-income-and-total-population-across-all-cbsas-in-a-state.-with-these-numbers-you-can-answer-this-question.">Question 3: Which state (not CBSA) had the highest average individual income in 2015? To answer this question, you will need to first compute the total income per CBSA by multiplying the average household income by the number of households, and then sum total income and total population across all CBSAs in a state. With these numbers, you can answer this question.</a>
+  <li><a href="#question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015" id="toc-question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015" class="nav-link" data-scroll-target="#question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015">Question 3: Which state (not CBSA) had the highest average individual income in 2015?</a>
   <ul class="collapse">
   <li><a href="#answer-the-state-with-the-highest-average-individual-income-in-2015-was-washington-d.c." id="toc-answer-the-state-with-the-highest-average-individual-income-in-2015-was-washington-d.c." class="nav-link" data-scroll-target="#answer-the-state-with-the-highest-average-individual-income-in-2015-was-washington-d.c.">Answer: The state with the highest average individual income in 2015 was Washington D.C.</a></li>
   </ul></li>
-  <li><a href="#question-4-data-scientists-and-business-analysts-are-recorded-under-naics-code-5182.-what-is-the-last-year-in-which-the-nyc-cbsa-had-the-most-data-scientists-in-the-country-in-recent-the-san-francisco-cbsa-has-had-the-most-data-scientists." id="toc-question-4-data-scientists-and-business-analysts-are-recorded-under-naics-code-5182.-what-is-the-last-year-in-which-the-nyc-cbsa-had-the-most-data-scientists-in-the-country-in-recent-the-san-francisco-cbsa-has-had-the-most-data-scientists." class="nav-link" data-scroll-target="#question-4-data-scientists-and-business-analysts-are-recorded-under-naics-code-5182.-what-is-the-last-year-in-which-the-nyc-cbsa-had-the-most-data-scientists-in-the-country-in-recent-the-san-francisco-cbsa-has-had-the-most-data-scientists.">Question 4: Data scientists and business analysts are recorded under NAICS code 5182. What is the last year in which the NYC CBSA had the most data scientists in the country? In recent, the San Francisco CBSA has had the most data scientists.</a></li>
+  <li><a href="#question-4-data-scientists-and-business-analysts-are-recorded-under-naics-code-5182.-what-is-the-last-year-in-which-the-nyc-cbsa-had-the-most-data-scientists-in-the-country-in-recent-the-san-francisco-cbsa-has-had-the-most-data-scientists." id="toc-question-4-data-scientists-and-business-analysts-are-recorded-under-naics-code-5182.-what-is-the-last-year-in-which-the-nyc-cbsa-had-the-most-data-scientists-in-the-country-in-recent-the-san-francisco-cbsa-has-had-the-most-data-scientists." class="nav-link" data-scroll-target="#question-4-data-scientists-and-business-analysts-are-recorded-under-naics-code-5182.-what-is-the-last-year-in-which-the-nyc-cbsa-had-the-most-data-scientists-in-the-country-in-recent-the-san-francisco-cbsa-has-had-the-most-data-scientists.">Question 4: Data scientists and business analysts are recorded under NAICS code 5182. What is the last year in which the NYC CBSA had the most data scientists in the country? In recent, the San Francisco CBSA has had the most data scientists.</a>
+  <ul class="collapse">
+  <li><a href="#answer-2015" id="toc-answer-2015" class="nav-link" data-scroll-target="#answer-2015">Answer: 2015</a></li>
+  </ul></li>
   <li><a href="#question-5-what-fraction-of-total-wages-in-the-nyc-cbsa-was-earned-by-people-employed-in-the-finance-and-insurance-industries-naics-code-52-in-what-year-did-this-fraction-peak" id="toc-question-5-what-fraction-of-total-wages-in-the-nyc-cbsa-was-earned-by-people-employed-in-the-finance-and-insurance-industries-naics-code-52-in-what-year-did-this-fraction-peak" class="nav-link" data-scroll-target="#question-5-what-fraction-of-total-wages-in-the-nyc-cbsa-was-earned-by-people-employed-in-the-finance-and-insurance-industries-naics-code-52-in-what-year-did-this-fraction-peak">Question 5: What fraction of total wages in the NYC CBSA was earned by people employed in the finance and insurance industries (NAICS code 52)? In what year did this fraction peak?</a>
   <ul class="collapse">
   <li><a href="#answer-the-fraction-of-total-wages-in-the-nyc-cbsa-earned-by-people-in-the-finance-and-insurance-industries-naics-52-peaked-in-2014-with-a-fraction-of-0.046." id="toc-answer-the-fraction-of-total-wages-in-the-nyc-cbsa-earned-by-people-in-the-finance-and-insurance-industries-naics-52-peaked-in-2014-with-a-fraction-of-0.046." class="nav-link" data-scroll-target="#answer-the-fraction-of-total-wages-in-the-nyc-cbsa-earned-by-people-in-the-finance-and-insurance-industries-naics-52-peaked-in-2014-with-a-fraction-of-0.046.">Answer: The fraction of total wages in the NYC CBSA earned by people in the finance and insurance industries (NAICS 52) peaked in 2014, with a fraction of 0.046.</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#task-3-initial-visualizations" id="toc-task-3-initial-visualizations" class="nav-link" data-scroll-target="#task-3-initial-visualizations">Task 3: Initial Visualizations</a></li>
-  <li><a href="#the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009." id="toc-the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009." class="nav-link" data-scroll-target="#the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009.">The relationship between monthly rent and average household income per CBSA in 2009.</a></li>
-  <li><a href="#the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas.-design-your-visualization-so-that-it-is-possible-to-see-the-evolution-of-this-relationship-over-time." id="toc-the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas.-design-your-visualization-so-that-it-is-possible-to-see-the-evolution-of-this-relationship-over-time." class="nav-link" data-scroll-target="#the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas.-design-your-visualization-so-that-it-is-possible-to-see-the-evolution-of-this-relationship-over-time.">The relationship between total employment and total employment in the health care and social services sector (NAICS 62) across different CBSAs. Design your visualization so that it is possible to see the evolution of this relationship over time.</a></li>
-  <li><a href="#the-evolution-of-average-household-size-over-time.-use-different-lines-to-represent-different-cbsas." id="toc-the-evolution-of-average-household-size-over-time.-use-different-lines-to-represent-different-cbsas." class="nav-link" data-scroll-target="#the-evolution-of-average-household-size-over-time.-use-different-lines-to-represent-different-cbsas.">The evolution of average household size over time. Use different lines to represent different CBSAs.</a></li>
+  <li><a href="#task-3-initial-visualizations" id="toc-task-3-initial-visualizations" class="nav-link" data-scroll-target="#task-3-initial-visualizations">Task 3: Initial Visualizations</a>
+  <ul class="collapse">
+  <li><a href="#the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009" id="toc-the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009" class="nav-link" data-scroll-target="#the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009">The relationship between monthly rent and average household income per CBSA in 2009:</a></li>
+  <li><a href="#the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas" id="toc-the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas" class="nav-link" data-scroll-target="#the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas">The relationship between total employment and total employment in the health care and social services sector (NAICS 62) across different CBSAs:</a></li>
+  <li><a href="#the-evolution-of-average-household-size-over-time" id="toc-the-evolution-of-average-household-size-over-time" class="nav-link" data-scroll-target="#the-evolution-of-average-household-size-over-time">The evolution of average household size over time:</a></li>
+  </ul></li>
+  <li><a href="#building-indices-of-housing-affordability-and-housing-stock-growth" id="toc-building-indices-of-housing-affordability-and-housing-stock-growth" class="nav-link" data-scroll-target="#building-indices-of-housing-affordability-and-housing-stock-growth">Building Indices of Housing Affordability and Housing Stock Growth</a></li>
+  <li><a href="#task-4-rent-burden" id="toc-task-4-rent-burden" class="nav-link" data-scroll-target="#task-4-rent-burden">Task 4: Rent burden</a></li>
   <li><a href="#task-5-housing-growth" id="toc-task-5-housing-growth" class="nav-link" data-scroll-target="#task-5-housing-growth">Task 5: Housing Growth</a></li>
   <li><a href="#task-6-visualization" id="toc-task-6-visualization" class="nav-link" data-scroll-target="#task-6-visualization">Task 6: Visualization</a></li>
+  <li><a href="#policy-brief-advancing-yimby-housing-growth-through-federal-support" id="toc-policy-brief-advancing-yimby-housing-growth-through-federal-support" class="nav-link" data-scroll-target="#policy-brief-advancing-yimby-housing-growth-through-federal-support">Policy Brief: Advancing YIMBY Housing Growth through Federal Support</a>
+  <ul class="collapse">
+  <li><a href="#identifying-key-sponsors" id="toc-identifying-key-sponsors" class="nav-link" data-scroll-target="#identifying-key-sponsors">Identifying Key Sponsors</a>
+  <ul class="collapse">
+  <li><a href="#primary-sponsor-yimby-success-city-houston-tx" id="toc-primary-sponsor-yimby-success-city-houston-tx" class="nav-link" data-scroll-target="#primary-sponsor-yimby-success-city-houston-tx">Primary Sponsor (YIMBY Success City): Houston, TX</a></li>
+  <li><a href="#co-sponsor-nimby-city-new-york-city-ny" id="toc-co-sponsor-nimby-city-new-york-city-ny" class="nav-link" data-scroll-target="#co-sponsor-nimby-city-new-york-city-ny">Co-Sponsor (NIMBY City): New York City, NY</a></li>
+  <li><a href="#support-from-key-interest-groups" id="toc-support-from-key-interest-groups" class="nav-link" data-scroll-target="#support-from-key-interest-groups">Support from Key Interest Groups</a></li>
+  </ul></li>
+  <li><a href="#proposed-federal-action" id="toc-proposed-federal-action" class="nav-link" data-scroll-target="#proposed-federal-action">Proposed Federal Action</a></li>
+  <li><a href="#metrics-for-evaluation" id="toc-metrics-for-evaluation" class="nav-link" data-scroll-target="#metrics-for-evaluation">Metrics for Evaluation</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -229,8 +255,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<section id="introduction-understanding-yimby-and-nimby-dynamics-in-u.s.-housing" class="level1">
+<h1>🏗 Introduction: Understanding YIMBY and NIMBY Dynamics in U.S. Housing</h1>
+<p>Across the United States, housing affordability has become a growing concern especially in certain metropolitan areas. While some metropolitan areas have embraced new development to meet demand, others have struggled with restrictive zoning, rising rents, and limited housing growth. These contrasting approaches are often described using the terms YIMBY and NIMBY.</p>
+<p><strong>YIMBY (“Yes In My Backyard”):</strong> refers to policies and attitudes that support new housing development — especially in urban or high-demand areas.</p>
+<p><strong>NIMBY (“Not In My Backyard”):</strong> describes opposition to new housing projects, typically due to concerns about neighborhood change, congestion, or property values.</p>
+<p>This project will further investigate the relationship between rent burden and housing growth across U.S. metropolitan areas (Core-Based Statistical Areas, or CBSAs) to identify where YIMBY-inspired policies have been most successful.</p>
+</section>
+<section id="data-acquisition" class="level1">
+<h1>Data Acquisition</h1>
+</section>
 <section id="task-1-data-import" class="level1">
-<h1>Task 1 Data import</h1>
+<h1>Task 1: Data Import</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -490,6 +526,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </details>
 </div>
 </section>
+<section id="data-integration-and-initial-exploration" class="level1">
+<h1>Data Integration and Initial Exploration</h1>
+</section>
 <section id="task-2-multi-table-questions" class="level1">
 <h1>Task 2: Multi-Table Questions</h1>
 <section id="question-1-which-cbsa-by-name-permitted-the-largest-number-of-new-housing-units-in-the-decade-from-2010-to-2019-inclusive" class="level2">
@@ -553,8 +592,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h3 class="anchored" data-anchor-id="answer-albuquerque-nm-cbsa-10740-permitted-the-most-new-housing-units-in-2013-with-a-total-of-2606-units.">Answer: Albuquerque, NM (CBSA 10740) permitted the most new housing units in 2013, with a total of 2606 units.</h3>
 </section>
 </section>
-<section id="question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015-to-answer-this-question-you-will-need-to-first-compute-the-total-income-per-cbsa-by-multiplying-the-average-household-income-by-the-number-of-households-and-then-sum-total-income-and-total-population-across-all-cbsas-in-a-state.-with-these-numbers-you-can-answer-this-question." class="level2">
-<h2 class="anchored" data-anchor-id="question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015-to-answer-this-question-you-will-need-to-first-compute-the-total-income-per-cbsa-by-multiplying-the-average-household-income-by-the-number-of-households-and-then-sum-total-income-and-total-population-across-all-cbsas-in-a-state.-with-these-numbers-you-can-answer-this-question.">Question 3: Which state (not CBSA) had the highest average individual income in 2015? To answer this question, you will need to first compute the total income per CBSA by multiplying the average household income by the number of households, and then sum total income and total population across all CBSAs in a state. With these numbers, you can answer this question.</h2>
+<section id="question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015" class="level2">
+<h2 class="anchored" data-anchor-id="question-3-which-state-not-cbsa-had-the-highest-average-individual-income-in-2015">Question 3: Which state (not CBSA) had the highest average individual income in 2015?</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
@@ -601,54 +640,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create standardized CBSA codes</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>census_std <span class="ot">&lt;-</span> HOUSEHOLDS <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">std_cbsa =</span> <span class="fu">paste0</span>(<span class="st">"C"</span>, GEOID), NAME)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>wages_std <span class="ot">&lt;-</span> WAGES <span class="sc">%&gt;%</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">std_cbsa =</span> <span class="fu">paste0</span>(FIPS, <span class="st">"0"</span>))</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for data scientists and join with census data</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>data_scientists_joined <span class="ot">&lt;-</span> wages_std <span class="sc">%&gt;%</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(INDUSTRY <span class="sc">==</span> <span class="dv">5182</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(census_std, <span class="at">by =</span> <span class="st">"std_cbsa"</span>)</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify the top CBSA (metro area) by employment for each year</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>top_cbsa_per_year <span class="ot">&lt;-</span> data_scientists_joined <span class="sc">%&gt;%</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR, NAME) <span class="sc">%&gt;%</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_employment =</span> <span class="fu">sum</span>(EMPLOYMENT, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop_last"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">max_employment =</span> <span class="fu">max</span>(total_employment, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(total_employment <span class="sc">==</span> max_employment) <span class="sc">%&gt;%</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(YEAR)</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if New York was top and find the last year it was</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>last_year_ny_top <span class="ot">&lt;-</span> top_cbsa_per_year <span class="sc">%&gt;%</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(NAME, <span class="st">"New York"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">last_year_top =</span> <span class="fu">max</span>(YEAR, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create standardized CBSA codes</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>census_std <span class="ot">&lt;-</span> HOUSEHOLDS <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">std_cbsa =</span> <span class="fu">paste0</span>(<span class="st">"C"</span>, GEOID), NAME) <span class="sc">%&gt;%</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(std_cbsa, NAME)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>wages_std <span class="ot">&lt;-</span> WAGES <span class="sc">%&gt;%</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">std_cbsa =</span> <span class="fu">paste0</span>(FIPS, <span class="st">"0"</span>))</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter for data scientists and join with census data</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>data_scientists_joined <span class="ot">&lt;-</span> wages_std <span class="sc">%&gt;%</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(INDUSTRY <span class="sc">==</span> <span class="dv">5182</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(census_std, <span class="at">by =</span> <span class="st">"std_cbsa"</span>, <span class="at">relationship =</span> <span class="st">"many-to-many"</span>)</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Identify top CBSA (metro area) by employment per year</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>top_cbsa_per_year <span class="ot">&lt;-</span> data_scientists_joined <span class="sc">%&gt;%</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR, NAME) <span class="sc">%&gt;%</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_employment =</span> <span class="fu">sum</span>(EMPLOYMENT, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR) <span class="sc">%&gt;%</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(<span class="at">order_by =</span> total_employment, <span class="at">n =</span> <span class="dv">1</span>, <span class="at">with_ties =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(YEAR)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a><span class="co"># Check if New York was ever top and find the last year it was</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>last_year_ny_top <span class="ot">&lt;-</span> top_cbsa_per_year <span class="sc">%&gt;%</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(NAME, <span class="st">"New York"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">last_year_top =</span> <span class="fu">max</span>(YEAR, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  last_year_ny_top</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  last_year_top
+          &lt;dbl&gt;
+1          2015</code></pre>
 </div>
+</div>
+<section id="answer-2015" class="level3">
+<h3 class="anchored" data-anchor-id="answer-2015">Answer: 2015</h3>
+</section>
 </section>
 <section id="question-5-what-fraction-of-total-wages-in-the-nyc-cbsa-was-earned-by-people-employed-in-the-finance-and-insurance-industries-naics-code-52-in-what-year-did-this-fraction-peak" class="level2">
 <h2 class="anchored" data-anchor-id="question-5-what-fraction-of-total-wages-in-the-nyc-cbsa-was-earned-by-people-employed-in-the-finance-and-insurance-industries-naics-code-52-in-what-year-did-this-fraction-peak">Question 5: What fraction of total wages in the NYC CBSA was earned by people employed in the finance and insurance industries (NAICS code 52)? In what year did this fraction peak?</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nyc_finance_fraction <span class="ot">&lt;-</span> WAGES <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(FIPS <span class="sc">==</span> <span class="st">"C3562"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR, INDUSTRY) <span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_wages =</span> <span class="fu">sum</span>(TOTAL_WAGES, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR) <span class="sc">|&gt;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_total =</span> <span class="fu">sum</span>(total_wages, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">finance_fraction =</span> <span class="fu">if_else</span>(INDUSTRY <span class="sc">==</span> <span class="dv">52</span>, total_wages <span class="sc">/</span> year_total, <span class="cn">NA_real_</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(INDUSTRY <span class="sc">==</span> <span class="dv">52</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(finance_fraction)</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Find the year with the highest fraction</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>peak_year <span class="ot">&lt;-</span> nyc_finance_fraction <span class="sc">|&gt;</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(finance_fraction, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(YEAR, finance_fraction)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>peak_year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nyc_finance_fraction <span class="ot">&lt;-</span> WAGES <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(FIPS <span class="sc">==</span> <span class="st">"C3562"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR, INDUSTRY) <span class="sc">|&gt;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">total_wages =</span> <span class="fu">sum</span>(TOTAL_WAGES, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="at">.groups =</span> <span class="st">"drop"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(YEAR) <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year_total =</span> <span class="fu">sum</span>(total_wages, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">finance_fraction =</span> <span class="fu">if_else</span>(INDUSTRY <span class="sc">==</span> <span class="dv">52</span>, total_wages <span class="sc">/</span> year_total, <span class="cn">NA_real_</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(INDUSTRY <span class="sc">==</span> <span class="dv">52</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(finance_fraction)</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: Find the year with the highest fraction</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>peak_year <span class="ot">&lt;-</span> nyc_finance_fraction <span class="sc">|&gt;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_max</span>(finance_fraction, <span class="at">n =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(YEAR, finance_fraction)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>peak_year</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 14 × 2
@@ -678,30 +732,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="task-3-initial-visualizations" class="level1">
 <h1>Task 3: Initial Visualizations</h1>
-</section>
-<section id="the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009." class="level1">
-<h1>The relationship between monthly rent and average household income per CBSA in 2009.</h1>
+<section id="the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009" class="level2">
+<h2 class="anchored" data-anchor-id="the-relationship-between-monthly-rent-and-average-household-income-per-cbsa-in-2009">The relationship between monthly rent and average household income per CBSA in 2009:</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>rent_income_2009 <span class="ot">&lt;-</span> RENT <span class="sc">|&gt;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2009</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    INCOME <span class="sc">|&gt;</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2009</span>) <span class="sc">|&gt;</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(GEOID, household_income),</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"GEOID"</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rent_income_2009, <span class="fu">aes</span>(<span class="at">x =</span> household_income, <span class="at">y =</span> monthly_rent)) <span class="sc">+</span></span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship Between Monthly Rent and Household Income (2009)"</span>,</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average Household Income ($)"</span>,</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Monthly Rent ($)"</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>rent_income_2009 <span class="ot">&lt;-</span> RENT <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2009</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    INCOME <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2009</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(GEOID, household_income),</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="st">"GEOID"</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rent_income_2009, <span class="fu">aes</span>(<span class="at">x =</span> household_income, <span class="at">y =</span> monthly_rent)) <span class="sc">+</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship Between Monthly Rent and Household Income (2009)"</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average Household Income ($)"</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Monthly Rent ($)"</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -712,36 +765,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas.-design-your-visualization-so-that-it-is-possible-to-see-the-evolution-of-this-relationship-over-time." class="level1">
-<h1>The relationship between total employment and total employment in the health care and social services sector (NAICS 62) across different CBSAs. Design your visualization so that it is possible to see the evolution of this relationship over time.</h1>
+<section id="the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas" class="level2">
+<h2 class="anchored" data-anchor-id="the-relationship-between-total-employment-and-total-employment-in-the-health-care-and-social-services-sector-naics-62-across-different-cbsas">The relationship between total employment and total employment in the health care and social services sector (NAICS 62) across different CBSAs:</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>employment_totals <span class="ot">&lt;-</span> WAGES <span class="sc">|&gt;</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(FIPS, YEAR) <span class="sc">|&gt;</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_employment =</span> <span class="fu">sum</span>(EMPLOYMENT, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>employment_health <span class="ot">&lt;-</span> WAGES <span class="sc">|&gt;</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(INDUSTRY <span class="sc">==</span> <span class="dv">62</span>) <span class="sc">|&gt;</span>  </span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(FIPS, YEAR) <span class="sc">|&gt;</span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">health_employment =</span> <span class="fu">sum</span>(EMPLOYMENT, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>employment_joined <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(employment_totals, employment_health, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"FIPS"</span>, <span class="st">"YEAR"</span>))</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(employment_joined, <span class="fu">aes</span>(<span class="at">x =</span> total_employment, <span class="at">y =</span> health_employment, <span class="at">color =</span> <span class="fu">as.factor</span>(YEAR))) <span class="sc">+</span></span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">name =</span> <span class="st">"Year"</span>) <span class="sc">+</span></span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> comma) <span class="sc">+</span></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> comma) <span class="sc">+</span></span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Health Care vs. Total Employment Across CBSAs (Over Time)"</span>,</span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Total Employment (All Industries)"</span>,</span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Health Care &amp; Social Services Employment"</span></span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>employment_totals <span class="ot">&lt;-</span> WAGES <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(FIPS, YEAR) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">total_employment =</span> <span class="fu">sum</span>(EMPLOYMENT, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>employment_health <span class="ot">&lt;-</span> WAGES <span class="sc">|&gt;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(INDUSTRY <span class="sc">==</span> <span class="dv">62</span>) <span class="sc">|&gt;</span>  </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(FIPS, YEAR) <span class="sc">|&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">health_employment =</span> <span class="fu">sum</span>(EMPLOYMENT, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>employment_joined <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(employment_totals, employment_health, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"FIPS"</span>, <span class="st">"YEAR"</span>))</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(employment_joined, <span class="fu">aes</span>(<span class="at">x =</span> total_employment, <span class="at">y =</span> health_employment, <span class="at">color =</span> <span class="fu">as.factor</span>(YEAR))) <span class="sc">+</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">name =</span> <span class="st">"Year"</span>) <span class="sc">+</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">labels =</span> comma) <span class="sc">+</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> comma) <span class="sc">+</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Health Care vs. Total Employment Across CBSAs (Over Time)"</span>,</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Total Employment (All Industries)"</span>,</span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Health Care &amp; Social Services Employment"</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -752,46 +805,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
-<section id="the-evolution-of-average-household-size-over-time.-use-different-lines-to-represent-different-cbsas." class="level1">
-<h1>The evolution of average household size over time. Use different lines to represent different CBSAs.</h1>
+<section id="the-evolution-of-average-household-size-over-time" class="level2">
+<h2 class="anchored" data-anchor-id="the-evolution-of-average-household-size-over-time">The evolution of average household size over time:</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"gghighlight"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stdout">
-<pre><code>package 'gghighlight' successfully unpacked and MD5 sums checked
-
-The downloaded binary packages are in
-    C:\Users\haley\AppData\Local\Temp\RtmpYJDhyG\downloaded_packages</code></pre>
-</div>
-<details class="code-fold">
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gghighlight)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>household_size <span class="ot">&lt;-</span> HOUSEHOLDS <span class="sc">|&gt;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, households, year) <span class="sc">|&gt;</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    POPULATION <span class="sc">|&gt;</span> <span class="fu">select</span>(GEOID, population, year),</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span>, <span class="st">"year"</span>)</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_household_size =</span> population <span class="sc">/</span> households)</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(household_size, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> avg_household_size, <span class="at">color =</span> NAME)) <span class="sc">+</span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gghighlight</span>(</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    year <span class="sc">==</span> <span class="fu">max</span>(year) <span class="sc">&amp;</span> avg_household_size <span class="sc">==</span> <span class="fu">max</span>(avg_household_size, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">label_key =</span> NAME,</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">unhighlighted_params =</span> <span class="fu">list</span>(<span class="at">color =</span> <span class="st">"gray80"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>)</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Evolution of Average Household Size Across CBSAs"</span>,</span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"Highlighting the CBSA with the largest average household size in the latest year"</span>,</span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Household Size"</span>,</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"CBSA"</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>household_size <span class="ot">&lt;-</span> HOUSEHOLDS <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, households, year) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    POPULATION <span class="sc">|&gt;</span> <span class="fu">select</span>(GEOID, population, year),</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span>, <span class="st">"year"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_household_size =</span> population <span class="sc">/</span> households) <span class="sc">|&gt;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Keep only NYC and LA CBSAs</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NAME <span class="sc">%in%</span> <span class="fu">c</span>(</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"New York-Newark-Jersey City, NY-NJ-PA Metro Area"</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Los Angeles-Long Beach-Anaheim, CA Metro Area"</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(household_size, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> avg_household_size, <span class="at">color =</span> NAME)) <span class="sc">+</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Average Household Size Over Time"</span>,</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"New York vs. Los Angeles CBSAs"</span>,</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Household Size"</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"CBSA"</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">"New York-Newark-Jersey City, NY-NJ-PA Metro Area"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Los Angeles-Long Beach-Anaheim, CA Metro Area"</span> <span class="ot">=</span> <span class="st">"firebrick"</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">14</span>)</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -800,135 +852,92 @@ The downloaded binary packages are in
 </figure>
 </div>
 </div>
-<details class="code-fold">
-<summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>household_size <span class="ot">&lt;-</span> HOUSEHOLDS <span class="sc">|&gt;</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, households, year) <span class="sc">|&gt;</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    POPULATION <span class="sc">|&gt;</span> <span class="fu">select</span>(GEOID, population, year),</span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span>, <span class="st">"year"</span>)</span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">avg_household_size =</span> population <span class="sc">/</span> households) <span class="sc">|&gt;</span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Keep only NYC and LA CBSAs</span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NAME <span class="sc">%in%</span> <span class="fu">c</span>(</span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"New York-Newark-Jersey City, NY-NJ-PA"</span>,</span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Los Angeles-Long Beach-Anaheim, CA"</span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(household_size, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> avg_household_size, <span class="at">color =</span> NAME)) <span class="sc">+</span></span>
-<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Average Household Size Over Time"</span>,</span>
-<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"New York vs. Los Angeles CBSAs"</span>,</span>
-<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span>,</span>
-<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Average Household Size"</span>,</span>
-<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"CBSA"</span></span>
-<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
-<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(</span>
-<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>      <span class="st">"New York-Newark-Jersey City, NY-NJ-PA"</span> <span class="ot">=</span> <span class="st">"steelblue"</span>,</span>
-<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Los Angeles-Long Beach-Anaheim, CA"</span> <span class="ot">=</span> <span class="st">"firebrick"</span></span>
-<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.position =</span> <span class="st">"top"</span>,</span>
-<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">14</span>)</span>
-<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="mp02_files/figure-html/unnamed-chunk-9-2.png" class="img-fluid figure-img" width="672"></p>
-</figure>
 </div>
-</div>
-</div>
-<p>#Task 4: Rent burden</p>
+</section>
+</section>
+<section id="building-indices-of-housing-affordability-and-housing-stock-growth" class="level1">
+<h1>Building Indices of Housing Affordability and Housing Stock Growth</h1>
+</section>
+<section id="task-4-rent-burden" class="level1">
+<h1>Task 4: Rent burden</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>income_rent <span class="ot">&lt;-</span> INCOME <span class="sc">|&gt;</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, year, household_income) <span class="sc">|&gt;</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(RENT <span class="sc">|&gt;</span> <span class="fu">select</span>(GEOID, year, monthly_rent),</span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span>, <span class="st">"year"</span>))</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>income_rent <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rent_burden =</span> (monthly_rent <span class="sc">*</span> <span class="dv">12</span>) <span class="sc">/</span> household_income)</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="fu">min</span>(year)) <span class="sc">|&gt;</span></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">baseline_burden =</span> <span class="fu">mean</span>(rent_burden, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(baseline_burden)</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>income_rent <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rent_burden_index =</span> (rent_burden <span class="sc">/</span> baseline) <span class="sc">*</span> <span class="dv">100</span>)</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>nyc_rent_burden <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NAME <span class="sc">==</span> <span class="st">"New York-Newark-Jersey City, NY-NJ-PA"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, rent_burden_index, rent_burden)</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(nyc_rent_burden, <span class="at">caption =</span> <span class="st">"NYC Rent Burden Over Time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>income_rent <span class="ot">&lt;-</span> INCOME <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, year, household_income) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(RENT <span class="sc">|&gt;</span> <span class="fu">select</span>(GEOID, year, monthly_rent),</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>            <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span>, <span class="st">"year"</span>))</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>income_rent <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rent_burden =</span> (monthly_rent <span class="sc">*</span> <span class="dv">12</span>) <span class="sc">/</span> household_income)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="fu">min</span>(year)) <span class="sc">|&gt;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">baseline_burden =</span> <span class="fu">mean</span>(rent_burden, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(baseline_burden)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>income_rent <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rent_burden_index =</span> (rent_burden <span class="sc">/</span> baseline) <span class="sc">*</span> <span class="dv">100</span>)</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>nyc_rent_burden <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(NAME, <span class="st">"New York"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(year, rent_burden_index, rent_burden)</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(nyc_rent_burden, <span class="at">caption =</span> <span class="st">"NYC Rent Burden Over Time"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-d304c2f2f4ea77adddba" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-d304c2f2f4ea77adddba">{"x":{"filter":"none","vertical":false,"caption":"<caption>NYC Rent Burden Over Time<\/caption>","data":[[],[],[],[]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>year<\/th>\n      <th>rent_burden_index<\/th>\n      <th>rent_burden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"year","targets":1},{"name":"rent_burden_index","targets":2},{"name":"rent_burden","targets":3}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-f48f0d954cc2854a8fad" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f48f0d954cc2854a8fad">{"x":{"filter":"none","vertical":false,"caption":"<caption>NYC Rent Burden Over Time<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14"],[2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2021,2022,2023],[110.6345130601893,114.8462403401646,117.7899725551918,116.8604281201963,116.2880806713154,118.1260573143863,117.6733849671126,115.779927770876,113.1556539983186,113.0056631992358,110.2129701994923,117.2276910598612,113.8108372900468,114.569597485567],[0.2146707586623627,0.2228430248518417,0.2285549244247617,0.226751273795755,0.2256407138296902,0.2292070497718665,0.228328702558806,0.2246547143830758,0.2195626791211124,0.2192716430082316,0.2138528138528139,0.2274638960300442,0.2208339704244119,0.2223062381852552]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>year<\/th>\n      <th>rent_burden_index<\/th>\n      <th>rent_burden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"year","targets":1},{"name":"rent_burden_index","targets":2},{"name":"rent_burden","targets":3}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>rent_extremes <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">|&gt;</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_burden =</span> <span class="fu">mean</span>(rent_burden_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_burden))</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(rent_extremes, <span class="dv">5</span>),</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span>(rent_extremes, <span class="dv">5</span>)</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"CBSAs with Highest and Lowest Rent Burden"</span></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rent_extremes <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">|&gt;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_burden =</span> <span class="fu">mean</span>(rent_burden_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_burden))</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(rent_extremes, <span class="dv">5</span>),</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span>(rent_extremes, <span class="dv">5</span>)</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"CBSAs with Highest and Lowest Rent Burden"</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-42313e7365a73eea9945" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-42313e7365a73eea9945">{"x":{"filter":"none","vertical":false,"caption":"<caption>CBSAs with Highest and Lowest Rent Burden<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["San Germán-Cabo Rojo, PR Metro Area","San Germán, PR Metro Area","Coamo, PR Micro Area","Aguadilla-Isabela-San Sebasti?n, PR Metro Area","Aguadilla, PR Metro Area","Wausau-Weston, WI Metro Area","Bismarck, ND Metro Area","Cedar Rapids, IA Metro Area","Jefferson City, MO Metro Area","Laconia, NH Micro Area"],[161.9633149111594,161.2821373994396,161.2486272353422,161.1571399603293,159.1856373802302,72.59601484297932,72.20140042115072,71.81499476257312,71.18705663148576,65.64758274177187]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_burden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_burden","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-b4b4ca445fd717426c8f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-b4b4ca445fd717426c8f">{"x":{"filter":"none","vertical":false,"caption":"<caption>CBSAs with Highest and Lowest Rent Burden<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["San Germán-Cabo Rojo, PR Metro Area","San Germán, PR Metro Area","Coamo, PR Micro Area","Aguadilla-Isabela-San Sebasti?n, PR Metro Area","Aguadilla, PR Metro Area","Wausau-Weston, WI Metro Area","Bismarck, ND Metro Area","Cedar Rapids, IA Metro Area","Jefferson City, MO Metro Area","Laconia, NH Micro Area"],[161.9633149111594,161.2821373994396,161.2486272353422,161.1571399603293,159.1856373802302,72.59601484297932,72.20140042115072,71.81499476257312,71.18705663148576,65.64758274177187]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_burden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_burden","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rent_extremes <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">|&gt;</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_burden =</span> <span class="fu">mean</span>(rent_burden_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_burden))</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(rent_extremes, <span class="dv">5</span>),</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span>(rent_extremes, <span class="dv">5</span>)</span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"CBSAs with Highest and Lowest Rent Burden"</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>rent_extremes <span class="ot">&lt;-</span> income_rent <span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">|&gt;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_burden =</span> <span class="fu">mean</span>(rent_burden_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_burden))</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">head</span>(rent_extremes, <span class="dv">5</span>),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tail</span>(rent_extremes, <span class="dv">5</span>)</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">caption =</span> <span class="st">"CBSAs with Highest and Lowest Rent Burden"</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-035e98b4012cc30c8571" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-035e98b4012cc30c8571">{"x":{"filter":"none","vertical":false,"caption":"<caption>CBSAs with Highest and Lowest Rent Burden<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["San Germán-Cabo Rojo, PR Metro Area","San Germán, PR Metro Area","Coamo, PR Micro Area","Aguadilla-Isabela-San Sebasti?n, PR Metro Area","Aguadilla, PR Metro Area","Wausau-Weston, WI Metro Area","Bismarck, ND Metro Area","Cedar Rapids, IA Metro Area","Jefferson City, MO Metro Area","Laconia, NH Micro Area"],[161.9633149111594,161.2821373994396,161.2486272353422,161.1571399603293,159.1856373802302,72.59601484297932,72.20140042115072,71.81499476257312,71.18705663148576,65.64758274177187]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_burden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_burden","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-4dd94db92bfd0d37d7eb" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4dd94db92bfd0d37d7eb">{"x":{"filter":"none","vertical":false,"caption":"<caption>CBSAs with Highest and Lowest Rent Burden<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["San Germán-Cabo Rojo, PR Metro Area","San Germán, PR Metro Area","Coamo, PR Micro Area","Aguadilla-Isabela-San Sebasti?n, PR Metro Area","Aguadilla, PR Metro Area","Wausau-Weston, WI Metro Area","Bismarck, ND Metro Area","Cedar Rapids, IA Metro Area","Jefferson City, MO Metro Area","Laconia, NH Micro Area"],[161.9633149111594,161.2821373994396,161.2486272353422,161.1571399603293,159.1856373802302,72.59601484297932,72.20140042115072,71.81499476257312,71.18705663148576,65.64758274177187]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_burden<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_burden","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(income_rent, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> rent_burden_index, <span class="at">group =</span> NAME)) <span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  gghighlight<span class="sc">::</span><span class="fu">gghighlight</span>(NAME <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"New York-Newark-Jersey City, NY-NJ-PA"</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"Los Angeles-Long Beach-Anaheim, CA"</span>)) <span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rent Burden Index Over Time"</span>,</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rent Burden Index (100 = Baseline Year Avg)"</span>,</span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(income_rent, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> rent_burden_index, <span class="at">group =</span> NAME)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rent Burden Index Over Time"</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rent Burden Index (100 = Baseline Year Avg)"</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Year"</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -944,85 +953,85 @@ The downloaded binary packages are in
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>housing_growth <span class="ot">&lt;-</span> POPULATION <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, year, population) <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    PERMITS <span class="sc">%&gt;%</span> <span class="fu">select</span>(CBSA, year, new_housing_units_permitted),</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span> <span class="ot">=</span> <span class="st">"CBSA"</span>, <span class="st">"year"</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(GEOID) <span class="sc">%&gt;%</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_5yrs_ago =</span> <span class="fu">lag</span>(population, <span class="dv">5</span>),</span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_growth_5yr =</span> (population <span class="sc">-</span> pop_5yrs_ago) <span class="sc">/</span> pop_5yrs_ago,</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">instant_growth =</span> new_housing_units_permitted <span class="sc">/</span> population,</span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate_growth =</span> <span class="fu">if_else</span>(</span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>      pop_growth_5yr <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>      new_housing_units_permitted <span class="sc">/</span> (pop_growth_5yr <span class="sc">*</span> population),</span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA_real_</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate baselines</span></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>instant_baseline <span class="ot">&lt;-</span> <span class="fu">mean</span>(housing_growth<span class="sc">$</span>instant_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>rate_baseline <span class="ot">&lt;-</span> <span class="fu">mean</span>(housing_growth<span class="sc">$</span>rate_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Add index and composite metrics</span></span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>housing_growth <span class="ot">&lt;-</span> housing_growth <span class="sc">%&gt;%</span></span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">instant_index =</span> (instant_growth <span class="sc">/</span> instant_baseline) <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate_index =</span> (rate_growth <span class="sc">/</span> rate_baseline) <span class="sc">*</span> <span class="dv">100</span>,</span>
-<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">composite_score =</span> <span class="fl">0.7</span> <span class="sc">*</span> instant_index <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> rate_index</span>
-<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Summaries ---</span></span>
-<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>instant_summary <span class="ot">&lt;-</span> housing_growth <span class="sc">%&gt;%</span></span>
-<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
-<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_instant_index =</span> <span class="fu">mean</span>(instant_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_instant_index))</span>
-<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="fu">bind_rows</span>(</span>
-<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(instant_summary, <span class="dv">5</span>),</span>
-<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(instant_summary, <span class="dv">5</span>)</span>
-<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>), <span class="at">caption =</span> <span class="st">"Top and Bottom CBSAs by Instantaneous Housing Growth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>housing_growth <span class="ot">&lt;-</span> POPULATION <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, year, population) <span class="sc">%&gt;%</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    PERMITS <span class="sc">%&gt;%</span> <span class="fu">select</span>(CBSA, year, new_housing_units_permitted),</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span> <span class="ot">=</span> <span class="st">"CBSA"</span>, <span class="st">"year"</span>)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(GEOID) <span class="sc">%&gt;%</span></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(year, <span class="at">.by_group =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_5yrs_ago =</span> <span class="fu">lag</span>(population, <span class="dv">5</span>),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">pop_growth_5yr =</span> (population <span class="sc">-</span> pop_5yrs_ago) <span class="sc">/</span> pop_5yrs_ago,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">instant_growth =</span> new_housing_units_permitted <span class="sc">/</span> population,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate_growth =</span> <span class="fu">if_else</span>(</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>      pop_growth_5yr <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>      new_housing_units_permitted <span class="sc">/</span> (pop_growth_5yr <span class="sc">*</span> population),</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>      <span class="cn">NA_real_</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate baselines</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>instant_baseline <span class="ot">&lt;-</span> <span class="fu">mean</span>(housing_growth<span class="sc">$</span>instant_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>rate_baseline <span class="ot">&lt;-</span> <span class="fu">mean</span>(housing_growth<span class="sc">$</span>rate_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Add index and composite metrics</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>housing_growth <span class="ot">&lt;-</span> housing_growth <span class="sc">%&gt;%</span></span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">instant_index =</span> (instant_growth <span class="sc">/</span> instant_baseline) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">rate_index =</span> (rate_growth <span class="sc">/</span> rate_baseline) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">composite_score =</span> <span class="fl">0.7</span> <span class="sc">*</span> instant_index <span class="sc">+</span> <span class="fl">0.3</span> <span class="sc">*</span> rate_index</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Summaries ---</span></span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>instant_summary <span class="ot">&lt;-</span> housing_growth <span class="sc">%&gt;%</span></span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_instant_index =</span> <span class="fu">mean</span>(instant_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_instant_index))</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="fu">bind_rows</span>(</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(instant_summary, <span class="dv">5</span>),</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(instant_summary, <span class="dv">5</span>)</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a>), <span class="at">caption =</span> <span class="st">"Top and Bottom CBSAs by Instantaneous Housing Growth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-1c7f90731b1d6c75d038" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-1c7f90731b1d6c75d038">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top and Bottom CBSAs by Instantaneous Housing Growth<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["Myrtle Beach-Conway-North Myrtle Beach, SC Metro Area","The Villages, FL Metro Area","Austin-Round Rock-Georgetown, TX Metro Area","Myrtle Beach-Conway-North Myrtle Beach, SC-NC Metro Area","Hilton Head Island-Bluffton, SC Metro Area","Wilson, NC Micro Area","Wisconsin Rapids-Marshfield, WI Micro Area","Wooster, OH Micro Area","Yauco, PR Metro Area","Zanesville, OH Micro Area"],[897.5398981957915,547.1095712973695,483.0551804220708,438.4945791067188,384.12249020467,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_instant_index<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_instant_index","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-ed1e84c177dcc8ebfda1" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-ed1e84c177dcc8ebfda1">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top and Bottom CBSAs by Instantaneous Housing Growth<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["Myrtle Beach-Conway-North Myrtle Beach, SC Metro Area","The Villages, FL Metro Area","Austin-Round Rock-Georgetown, TX Metro Area","Myrtle Beach-Conway-North Myrtle Beach, SC-NC Metro Area","Hilton Head Island-Bluffton, SC Metro Area","Wilson, NC Micro Area","Wisconsin Rapids-Marshfield, WI Micro Area","Wooster, OH Micro Area","Yauco, PR Metro Area","Zanesville, OH Micro Area"],[897.5398981957915,547.1095712973695,483.0551804220708,438.4945791067188,384.12249020467,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_instant_index<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_instant_index","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>rate_summary <span class="ot">&lt;-</span> housing_growth <span class="sc">%&gt;%</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_rate_index =</span> <span class="fu">mean</span>(rate_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_rate_index))</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="fu">bind_rows</span>(</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(rate_summary, <span class="dv">5</span>),</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(rate_summary, <span class="dv">5</span>)</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>), <span class="at">caption =</span> <span class="st">"Top and Bottom CBSAs by Rate-Based Housing Growth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>rate_summary <span class="ot">&lt;-</span> housing_growth <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_rate_index =</span> <span class="fu">mean</span>(rate_index, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_rate_index))</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="fu">bind_rows</span>(</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(rate_summary, <span class="dv">5</span>),</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(rate_summary, <span class="dv">5</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>), <span class="at">caption =</span> <span class="st">"Top and Bottom CBSAs by Rate-Based Housing Growth"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e6f6ef34dc3fd7df1615" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e6f6ef34dc3fd7df1615">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top and Bottom CBSAs by Rate-Based Housing Growth<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["Buffalo-Cheektowaga-Niagara Falls, NY Metro Area","New Bern, NC Metro Area","Mobile, AL Metro Area","Wausau, WI Metro Area","Springfield, OH Metro Area","Worcester, MA Metro Area","Yauco, PR Metro Area","Youngstown-Warren, OH Metro Area","Youngstown-Warren-Boardman, OH-PA Metro Area","Zanesville, OH Micro Area"],[6985.090776772495,6049.132637199417,3032.368638760203,1766.21042161493,1599.958236278644,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_rate_index<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_rate_index","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-d20074ce71d138a968d1" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-d20074ce71d138a968d1">{"x":{"filter":"none","vertical":false,"caption":"<caption>Top and Bottom CBSAs by Rate-Based Housing Growth<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["Buffalo-Cheektowaga-Niagara Falls, NY Metro Area","New Bern, NC Metro Area","Mobile, AL Metro Area","Wausau, WI Metro Area","Springfield, OH Metro Area","Worcester, MA Metro Area","Yauco, PR Metro Area","Youngstown-Warren, OH Metro Area","Youngstown-Warren-Boardman, OH-PA Metro Area","Zanesville, OH Micro Area"],[6985.090776772495,6049.132637199417,3032.368638760203,1766.21042161493,1599.958236278644,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_rate_index<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_rate_index","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>composite_summary <span class="ot">&lt;-</span> housing_growth <span class="sc">%&gt;%</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_composite =</span> <span class="fu">mean</span>(composite_score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_composite))</span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="fu">bind_rows</span>(</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(composite_summary, <span class="dv">5</span>),</span>
-<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(composite_summary, <span class="dv">5</span>)</span>
-<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>), <span class="at">caption =</span> <span class="st">"CBSAs with Highest and Lowest Composite Housing Growth Scores"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>composite_summary <span class="ot">&lt;-</span> housing_growth <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">avg_composite =</span> <span class="fu">mean</span>(composite_score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_composite))</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(<span class="fu">bind_rows</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(composite_summary, <span class="dv">5</span>),</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>(composite_summary, <span class="dv">5</span>)</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>), <span class="at">caption =</span> <span class="st">"CBSAs with Highest and Lowest Composite Housing Growth Scores"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-1959122ecab92d85fb77" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-1959122ecab92d85fb77">{"x":{"filter":"none","vertical":false,"caption":"<caption>CBSAs with Highest and Lowest Composite Housing Growth Scores<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["Buffalo-Cheektowaga-Niagara Falls, NY Metro Area","New Bern, NC Metro Area","Mobile, AL Metro Area","Wausau, WI Metro Area","Glens Falls, NY Metro Area","Worcester, MA Metro Area","Yauco, PR Metro Area","Youngstown-Warren, OH Metro Area","Youngstown-Warren-Boardman, OH-PA Metro Area","Zanesville, OH Micro Area"],[2124.509167806995,1875.201041691736,950.6950185539253,584.4774118509921,516.3729599323997,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_composite<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_composite","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-dc214fc72f98918e59bd" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-dc214fc72f98918e59bd">{"x":{"filter":"none","vertical":false,"caption":"<caption>CBSAs with Highest and Lowest Composite Housing Growth Scores<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10"],["Buffalo-Cheektowaga-Niagara Falls, NY Metro Area","New Bern, NC Metro Area","Mobile, AL Metro Area","Wausau, WI Metro Area","Glens Falls, NY Metro Area","Worcester, MA Metro Area","Yauco, PR Metro Area","Youngstown-Warren, OH Metro Area","Youngstown-Warren-Boardman, OH-PA Metro Area","Zanesville, OH Micro Area"],[2124.509167806995,1875.201041691736,950.6950185539253,584.4774118509921,516.3729599323997,null,null,null,null,null]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>avg_composite<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"avg_composite","targets":2}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -1031,26 +1040,26 @@ The downloaded binary packages are in
 <div class="cell">
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>combined <span class="ot">&lt;-</span> income_rent <span class="sc">%&gt;%</span></span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, year, rent_burden_index, rent_burden) <span class="sc">%&gt;%</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    housing_growth <span class="sc">%&gt;%</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(GEOID, NAME, year, population, pop_growth_5yr, instant_index, rate_index, composite_score),</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span>, <span class="st">"NAME"</span>, <span class="st">"year"</span>)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined, <span class="fu">aes</span>(<span class="at">x =</span> composite_score, <span class="at">y =</span> rent_burden_index)) <span class="sc">+</span></span>
-<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> NAME), <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship Between Housing Growth and Rent Burden"</span>,</span>
-<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Composite Housing Growth Index (↑ = More Growth)"</span>,</span>
-<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rent Burden Index (100 = Baseline Year)"</span></span>
-<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>combined <span class="ot">&lt;-</span> income_rent <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(GEOID, NAME, year, rent_burden_index, rent_burden) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    housing_growth <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      <span class="fu">select</span>(GEOID, NAME, year, population, pop_growth_5yr, instant_index, rate_index, composite_score),</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"GEOID"</span>, <span class="st">"NAME"</span>, <span class="st">"year"</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined, <span class="fu">aes</span>(<span class="at">x =</span> composite_score, <span class="at">y =</span> rent_burden_index)) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> NAME), <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship Between Housing Growth and Rent Burden"</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Composite Housing Growth Index (↑ = More Growth)"</span>,</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Rent Burden Index (100 = Baseline Year)"</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"none"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1061,25 +1070,25 @@ The downloaded binary packages are in
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>rent_change <span class="ot">&lt;-</span> combined <span class="sc">%&gt;%</span></span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_start =</span> <span class="fu">first</span>(rent_burden_index),</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_end =</span> <span class="fu">last</span>(rent_burden_index),</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_change =</span> rent_end <span class="sc">-</span> rent_start,</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pop_growth =</span> <span class="fu">mean</span>(pop_growth_5yr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rent_change, <span class="fu">aes</span>(<span class="at">x =</span> avg_pop_growth, <span class="at">y =</span> rent_change)) <span class="sc">+</span></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rent Burden Change vs Population Growth"</span>,</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average 5-Year Population Growth"</span>,</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Change in Rent Burden Index (End - Start)"</span></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>rent_change <span class="ot">&lt;-</span> combined <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_start =</span> <span class="fu">first</span>(rent_burden_index),</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_end =</span> <span class="fu">last</span>(rent_burden_index),</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_change =</span> rent_end <span class="sc">-</span> rent_start,</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pop_growth =</span> <span class="fu">mean</span>(pop_growth_5yr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(rent_change, <span class="fu">aes</span>(<span class="at">x =</span> avg_pop_growth, <span class="at">y =</span> rent_change)) <span class="sc">+</span></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">color =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Rent Burden Change vs Population Growth"</span>,</span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Average 5-Year Population Growth"</span>,</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Change in Rent Burden Index (End - Start)"</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
@@ -1090,32 +1099,82 @@ The downloaded binary packages are in
 </div>
 <details class="code-fold">
 <summary>Show the code</summary>
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>yimby_cbsas <span class="ot">&lt;-</span> combined <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_start =</span> <span class="fu">first</span>(rent_burden_index),</span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_end =</span> <span class="fu">last</span>(rent_burden_index),</span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_change =</span> rent_end <span class="sc">-</span> rent_start,</span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pop_growth =</span> <span class="fu">mean</span>(pop_growth_5yr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_housing_growth =</span> <span class="fu">mean</span>(composite_score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    rent_start <span class="sc">&gt;</span> <span class="fu">quantile</span>(rent_start, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),  <span class="co"># high rent burden initially</span></span>
-<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    rent_change <span class="sc">&lt;</span> <span class="dv">0</span>,                                        <span class="co"># rent burden decreased</span></span>
-<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    avg_pop_growth <span class="sc">&gt;</span> <span class="dv">0</span>,                                     <span class="co"># population grew</span></span>
-<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>    avg_housing_growth <span class="sc">&gt;</span> <span class="fu">mean</span>(avg_housing_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># above avg housing growth</span></span>
-<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_housing_growth))</span>
-<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(yimby_cbsas, <span class="at">caption =</span> <span class="st">"Most 'YIMBY' CBSAs (High Rent, Falling Burden, Pop Growth, Housing Growth)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>yimby_cbsas <span class="ot">&lt;-</span> combined <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NAME) <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_start =</span> <span class="fu">first</span>(rent_burden_index),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_end =</span> <span class="fu">last</span>(rent_burden_index),</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">rent_change =</span> rent_end <span class="sc">-</span> rent_start,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_pop_growth =</span> <span class="fu">mean</span>(pop_growth_5yr, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_housing_growth =</span> <span class="fu">mean</span>(composite_score, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    rent_start <span class="sc">&gt;</span> <span class="fu">quantile</span>(rent_start, <span class="fl">0.75</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),  <span class="co"># high rent burden initially</span></span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    rent_change <span class="sc">&lt;</span> <span class="dv">0</span>,                                        <span class="co"># rent burden decreased</span></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    avg_pop_growth <span class="sc">&gt;</span> <span class="dv">0</span>,                                     <span class="co"># population grew</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    avg_housing_growth <span class="sc">&gt;</span> <span class="fu">mean</span>(avg_housing_growth, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)  <span class="co"># above avg housing growth</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(avg_housing_growth))</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">datatable</span>(yimby_cbsas, <span class="at">caption =</span> <span class="st">"Most 'YIMBY' CBSAs (High Rent, Falling Burden, Pop Growth, Housing Growth)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-3ac956594cdc85b08767" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-3ac956594cdc85b08767">{"x":{"filter":"none","vertical":false,"caption":"<caption>Most 'YIMBY' CBSAs (High Rent, Falling Burden, Pop Growth, Housing Growth)<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],["Myrtle Beach-Conway-North Myrtle Beach, SC-NC Metro Area","Punta Gorda, FL Metro Area","Naples-Immokalee-Marco Island, FL Metro Area","Bend-Redmond, OR Metro Area","Valdosta, GA Metro Area","Salisbury, MD-DE Metro Area","Hinesville, GA Metro Area","Auburn-Opelika, AL Metro Area","College Station-Bryan, TX Metro Area","Prescott, AZ Metro Area","Lawrence, KS Metro Area","Sebastian-Vero Beach, FL Metro Area","Brownsville-Harlingen, TX Metro Area","Tallahassee, FL Metro Area","Gulfport-Biloxi, MS Metro Area","Winchester, VA-WV Metro Area"],[115.194412230978,132.691834263444,112.8759542772066,118.9540317209058,113.5580019008321,115.8751753142872,137.6890790843071,117.0727056549697,142.7578008034061,122.6107744033732,116.5095863027602,125.9703477940112,118.4225079224795,129.0322560490253,121.7343217003124,114.6396486070298],[114.7261943916998,130.9127171258423,111.2659206381633,108.5387372845124,112.9373929338249,94.53231175822113,121.4847722821524,103.7539045755143,131.1983783218192,110.9773817048016,97.47820999870747,115.6935297174364,107.0813211777357,119.6429624357715,106.3760587031584,97.32593414248808],[-0.4682178392781395,-1.779117137601673,-1.610033639043323,-10.41529443639342,-0.6206089670071293,-21.34286355606606,-16.20430680215469,-13.31880107945531,-11.55942248158689,-11.63339269857163,-19.03137630405271,-10.27681807657481,-11.34118674474374,-9.389293613253827,-15.358262997154,-17.31371446454175],[0.4001421825537421,0.1139604673947807,0.1103561717180171,0.1246896183603223,0.03097074675754597,1.137211528458604,0.02688375395972811,0.1254277676830215,0.10317602309907,0.0567245284645412,0.03590012252719494,0.0942765261846901,0.01922680299575316,0.02888584494199757,0.07533670047633487,0.06507198067393023],[334.3267793773488,263.0208909657639,220.4642096413982,216.8903836074343,189.9873137795302,185.1514618728476,179.2347663794628,166.2097313845601,156.5453561997923,151.9855655930089,150.651287217957,149.9981181318027,144.0188584309635,140.7729288028443,134.2501882149233,132.1224080497745]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>rent_start<\/th>\n      <th>rent_end<\/th>\n      <th>rent_change<\/th>\n      <th>avg_pop_growth<\/th>\n      <th>avg_housing_growth<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"rent_start","targets":2},{"name":"rent_end","targets":3},{"name":"rent_change","targets":4},{"name":"avg_pop_growth","targets":5},{"name":"avg_housing_growth","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-bbcd77bfb212b5f2b37a" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-bbcd77bfb212b5f2b37a">{"x":{"filter":"none","vertical":false,"caption":"<caption>Most 'YIMBY' CBSAs (High Rent, Falling Burden, Pop Growth, Housing Growth)<\/caption>","data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"],["Myrtle Beach-Conway-North Myrtle Beach, SC-NC Metro Area","Punta Gorda, FL Metro Area","Naples-Immokalee-Marco Island, FL Metro Area","Bend-Redmond, OR Metro Area","Valdosta, GA Metro Area","Salisbury, MD-DE Metro Area","Hinesville, GA Metro Area","Auburn-Opelika, AL Metro Area","College Station-Bryan, TX Metro Area","Prescott, AZ Metro Area","Lawrence, KS Metro Area","Sebastian-Vero Beach, FL Metro Area","Brownsville-Harlingen, TX Metro Area","Tallahassee, FL Metro Area","Gulfport-Biloxi, MS Metro Area","Winchester, VA-WV Metro Area"],[115.194412230978,132.691834263444,112.8759542772066,118.9540317209058,113.5580019008321,115.8751753142872,137.6890790843071,117.0727056549697,142.7578008034061,122.6107744033732,116.5095863027602,125.9703477940112,118.4225079224795,129.0322560490253,121.7343217003124,114.6396486070298],[114.7261943916998,130.9127171258423,111.2659206381633,108.5387372845124,112.9373929338249,94.53231175822113,121.4847722821524,103.7539045755143,131.1983783218192,110.9773817048016,97.47820999870747,115.6935297174364,107.0813211777357,119.6429624357715,106.3760587031584,97.32593414248808],[-0.4682178392781395,-1.779117137601673,-1.610033639043323,-10.41529443639342,-0.6206089670071293,-21.34286355606606,-16.20430680215469,-13.31880107945531,-11.55942248158689,-11.63339269857163,-19.03137630405271,-10.27681807657481,-11.34118674474374,-9.389293613253827,-15.358262997154,-17.31371446454175],[0.4001421825537421,0.1139604673947807,0.1103561717180171,0.1246896183603223,0.03097074675754597,1.137211528458604,0.02688375395972811,0.1254277676830215,0.10317602309907,0.0567245284645412,0.03590012252719494,0.0942765261846901,0.01922680299575316,0.02888584494199757,0.07533670047633487,0.06507198067393023],[334.3267793773488,263.0208909657639,220.4642096413982,216.8903836074343,189.9873137795302,185.1514618728476,179.2347663794628,166.2097313845601,156.5453561997923,151.9855655930089,150.651287217957,149.9981181318027,144.0188584309635,140.7729288028443,134.2501882149233,132.1224080497745]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>NAME<\/th>\n      <th>rent_start<\/th>\n      <th>rent_end<\/th>\n      <th>rent_change<\/th>\n      <th>avg_pop_growth<\/th>\n      <th>avg_housing_growth<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[2,3,4,5,6]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"NAME","targets":1},{"name":"rent_start","targets":2},{"name":"rent_end","targets":3},{"name":"rent_change","targets":4},{"name":"avg_pop_growth","targets":5},{"name":"avg_housing_growth","targets":6}],"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
+</section>
+<section id="policy-brief-advancing-yimby-housing-growth-through-federal-support" class="level1">
+<h1>Policy Brief: Advancing YIMBY Housing Growth through Federal Support</h1>
+<p>To ensure every community has access to affordable, abundant housing, this brief proposes federal incentives for municipalities that demonstrate YIMBY-oriented progress — measured by rent burden and housing growth metrics.</p>
+<section id="identifying-key-sponsors" class="level2">
+<h2 class="anchored" data-anchor-id="identifying-key-sponsors">Identifying Key Sponsors</h2>
+<section id="primary-sponsor-yimby-success-city-houston-tx" class="level3">
+<h3 class="anchored" data-anchor-id="primary-sponsor-yimby-success-city-houston-tx">Primary Sponsor (YIMBY Success City): Houston, TX</h3>
+<p>Houston has demonstrated consistent population and housing growth, accompanied by a decline in rent burden over time. Its flexible zoning regulations and pro-development policies make it a model for how deregulated markets can support affordability through supply expansion.</p>
+</section>
+<section id="co-sponsor-nimby-city-new-york-city-ny" class="level3">
+<h3 class="anchored" data-anchor-id="co-sponsor-nimby-city-new-york-city-ny">Co-Sponsor (NIMBY City): New York City, NY</h3>
+<p>New York City, by contrast, exhibits persistently high rent burdens and slower housing development relative to demand. Encouraging YIMBY reforms here would help alleviate rent pressures, reduce displacement, and improve housing access for working- and middle-class families.</p>
+</section>
+<section id="support-from-key-interest-groups" class="level3">
+<h3 class="anchored" data-anchor-id="support-from-key-interest-groups">Support from Key Interest Groups</h3>
+<p>To ensure bipartisan and broad-based support, we identify two occupational groups that stand to benefit directly from YIMBY-friendly policy reforms:</p>
+<section id="construction-and-skilled-trades-workers" class="level4">
+<h4 class="anchored" data-anchor-id="construction-and-skilled-trades-workers">Construction and Skilled Trades Workers</h4>
+<p>A federal YIMBY initiative would expand housing projects nationwide, increasing job opportunities for construction, carpentry, electrical, and plumbing professionals.</p>
+<p>Higher housing demand ensures long-term employment stability and wage growth within these sectors.</p>
+</section>
+<section id="teachers-and-public-service-workers" class="level4">
+<h4 class="anchored" data-anchor-id="teachers-and-public-service-workers">Teachers and Public Service Workers</h4>
+<p>Public-sector workers often struggle with housing costs in high-rent cities.</p>
+<p>Lower rent burdens would free up income, improve retention in critical local jobs, and strengthen community stability.</p>
+</section>
+</section>
+</section>
+<section id="proposed-federal-action" class="level2">
+<h2 class="anchored" data-anchor-id="proposed-federal-action">Proposed Federal Action</h2>
+<p>We propose a Federal YIMBY Incentive Program, designed to reward municipalities that:</p>
+<ul>
+<li><p>Reduce average rent burden over a five-year period;</p></li>
+<li><p>Achieve sustained population growth; and</p></li>
+<li><p>Demonstrate above-average housing construction activity relative to local demand.</p></li>
+</ul>
+<p>Eligible cities would receive grants to support infrastructure, public transportation, and sustainable development in growing neighborhoods.</p>
+</section>
+<section id="metrics-for-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="metrics-for-evaluation">Metrics for Evaluation</h2>
+<ol type="1">
+<li><p>Rent Burden Metric Rent burden is defined as the ratio of annual rent expenses to household income. Cities with declining rent burdens indicate improved affordability and effective housing supply growth.</p></li>
+<li><p>Housing Growth Metric Housing growth measures the ratio of new housing permits to population, adjusted for population growth. Higher ratios signal active development responding to local demand.</p></li>
+</ol>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>A well-structured federal YIMBY program would strengthen affordable housing markets, support working-class families, and generate new jobs across multiple industries. With a primary sponsor from Houston and a co-sponsor from New York City, Congress can bridge geographic and political divides to advance a common goal: ensuring that every American has access to a home they can afford.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

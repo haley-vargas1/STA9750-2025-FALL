@@ -16,7 +16,18 @@ execute:
   message: false
 ---
 
-# Task 1 Data import
+# 🏗 Introduction: Understanding YIMBY and NIMBY Dynamics in U.S. Housing
+
+Across the United States, housing affordability has become a growing concern especially in certain metropolitan areas. While some metropolitan areas have embraced new development to meet demand, others have struggled with restrictive zoning, rising rents, and limited housing growth. These contrasting approaches are often described using the terms YIMBY and NIMBY.
+
+**YIMBY (“Yes In My Backyard”):** refers to policies and attitudes that support new housing development — especially in urban or high-demand areas. 
+
+**NIMBY (“Not In My Backyard”):** describes opposition to new housing projects, typically due to concerns about neighborhood change, congestion, or property values. 
+
+This project will further investigate the relationship between rent burden and housing growth across U.S. metropolitan areas (Core-Based Statistical Areas, or CBSAs) to identify where YIMBY-inspired policies have been most successful. 
+
+# Data Acquisition
+# Task 1: Data Import
 
 ```{r}
 if(!dir.exists(file.path("data", "mp02"))){
@@ -273,7 +284,7 @@ get_bls_qcew_annual_averages <- function(start_year=2009, end_year=2023){
 
 WAGES <- get_bls_qcew_annual_averages()
 ```
-
+# Data Integration and Initial Exploration
 # Task 2: Multi-Table Questions
 
 ## Question 1: Which CBSA (by name) permitted the largest number of new housing units in the decade from 2010 to 2019 (inclusive)?
@@ -291,7 +302,6 @@ PERMITS |>
 
 ### Answer: The CBSA that had the largest number of new housing units in 2010 to 2019 is Houston-Sugar Land-Baytown-The Woodlands, TX Metro area.
 
-
 ## Question 2: In what year did Albuquerque, NM (CBSA Number 10740) permit the most new housing units?
 
 ```{r}
@@ -305,7 +315,7 @@ PERMITS |>
 
 ### Answer: Albuquerque, NM (CBSA 10740) permitted the most new housing units in 2013, with a total of 2606 units.
 
-## Question 3: Which state (not CBSA) had the highest average individual income in 2015? To answer this question, you will need to first compute the total income per CBSA by multiplying the average household income by the number of households, and then sum total income and total population across all CBSAs in a state. With these numbers, you can answer this question.
+## Question 3: Which state (not CBSA) had the highest average individual income in 2015? 
 
 ```{r}
 # Join income and household data
@@ -341,9 +351,13 @@ highest_income_state
 ## Question 4: Data scientists and business analysts are recorded under NAICS code 5182. What is the last year in which the NYC CBSA had the most data scientists in the country? In recent, the San Francisco CBSA has had the most data scientists.
 
 ```{r}
+library(dplyr)
+library(stringr)
+
 # Create standardized CBSA codes
 census_std <- HOUSEHOLDS %>%
-  transmute(std_cbsa = paste0("C", GEOID), NAME)
+  transmute(std_cbsa = paste0("C", GEOID), NAME) %>%
+  distinct(std_cbsa, NAME)
 
 wages_std <- WAGES %>%
   mutate(std_cbsa = paste0(FIPS, "0"))
@@ -351,21 +365,25 @@ wages_std <- WAGES %>%
 # Filter for data scientists and join with census data
 data_scientists_joined <- wages_std %>%
   filter(INDUSTRY == 5182) %>%
-  inner_join(census_std, by = "std_cbsa")
+  inner_join(census_std, by = "std_cbsa", relationship = "many-to-many")
 
-# Identify the top CBSA (metro area) by employment for each year
+# Identify top CBSA (metro area) by employment per year
 top_cbsa_per_year <- data_scientists_joined %>%
   group_by(YEAR, NAME) %>%
-  summarize(total_employment = sum(EMPLOYMENT, na.rm = TRUE), .groups = "drop_last") %>%
-  mutate(max_employment = max(total_employment, na.rm = TRUE)) %>%
-  filter(total_employment == max_employment) %>%
+  summarise(total_employment = sum(EMPLOYMENT, na.rm = TRUE), .groups = "drop") %>%
+  group_by(YEAR) %>%
+  slice_max(order_by = total_employment, n = 1, with_ties = FALSE) %>%
+  ungroup() %>%
   arrange(YEAR)
 
-# Check if New York was top and find the last year it was
+# Check if New York was ever top and find the last year it was
 last_year_ny_top <- top_cbsa_per_year %>%
   filter(str_detect(NAME, "New York")) %>%
-  summarize(last_year_top = max(YEAR, na.rm = TRUE))
+  summarise(last_year_top = max(YEAR, na.rm = TRUE))
+  last_year_ny_top
 ```
+
+### Answer: 2015
 
 ## Question 5: What fraction of total wages in the NYC CBSA was earned by people employed in the finance and insurance industries (NAICS code 52)? In what year did this fraction peak?
 
@@ -392,7 +410,8 @@ peak_year
 
 # Task 3: Initial Visualizations
 
-# The relationship between monthly rent and average household income per CBSA in 2009.
+## The relationship between monthly rent and average household income per CBSA in 2009:
+
 ```{r}
 rent_income_2009 <- RENT |>
   filter(year == 2009) |>
@@ -414,8 +433,7 @@ ggplot(rent_income_2009, aes(x = household_income, y = monthly_rent)) +
   theme_minimal()
 ```
 
-
-# The relationship between total employment and total employment in the health care and social services sector (NAICS 62) across different CBSAs. Design your visualization so that it is possible to see the evolution of this relationship over time.
+## The relationship between total employment and total employment in the health care and social services sector (NAICS 62) across different CBSAs:
 
 ```{r}
 library(scales)
@@ -445,11 +463,13 @@ ggplot(employment_joined, aes(x = total_employment, y = health_employment, color
   theme_minimal()
 ```
 
-# The evolution of average household size over time. Use different lines to represent different CBSAs.
+## The evolution of average household size over time:
 
 ```{r}
 install.packages("gghighlight")
 library(gghighlight)
+library(ggplot2)
+library(dplyr)
 
 household_size <- HOUSEHOLDS |>
   select(GEOID, NAME, households, year) |>
@@ -464,7 +484,7 @@ ggplot(household_size, aes(x = year, y = avg_household_size, color = NAME)) +
   gghighlight(
     year == max(year) & avg_household_size == max(avg_household_size, na.rm = TRUE),
     label_key = NAME,
-    unhighlighted_params = list(color = "gray80", alpha = 0.4)
+    unhighlighted_params = list(color = "gray0", alpha = 0.4)
   ) +
   labs(
     title = "Evolution of Average Household Size Across CBSAs",
@@ -475,10 +495,6 @@ ggplot(household_size, aes(x = year, y = avg_household_size, color = NAME)) +
   ) +
   theme_minimal()
 
-
-library(ggplot2)
-library(dplyr)
-
 household_size <- HOUSEHOLDS |>
   select(GEOID, NAME, households, year) |>
   left_join(
@@ -488,8 +504,8 @@ household_size <- HOUSEHOLDS |>
   mutate(avg_household_size = population / households) |>
   # Keep only NYC and LA CBSAs
   filter(NAME %in% c(
-    "New York-Newark-Jersey City, NY-NJ-PA",
-    "Los Angeles-Long Beach-Anaheim, CA"
+    "New York-Newark-Jersey City, NY-NJ-PA Metro Area",
+    "Los Angeles-Long Beach-Anaheim, CA Metro Area"
   ))
 
 ggplot(household_size, aes(x = year, y = avg_household_size, color = NAME)) +
@@ -503,8 +519,8 @@ ggplot(household_size, aes(x = year, y = avg_household_size, color = NAME)) +
   ) +
   scale_color_manual(
     values = c(
-      "New York-Newark-Jersey City, NY-NJ-PA" = "steelblue",
-      "Los Angeles-Long Beach-Anaheim, CA" = "firebrick"
+      "New York-Newark-Jersey City, NY-NJ-PA Metro Area" = "steelblue",
+      "Los Angeles-Long Beach-Anaheim, CA Metro Area" = "firebrick"
     )
   ) +
   theme_minimal() +
@@ -514,8 +530,8 @@ ggplot(household_size, aes(x = year, y = avg_household_size, color = NAME)) +
     plot.title = element_text(face = "bold", size = 14)
   )
 ```
-
-#Task 4: Rent burden
+# Building Indices of Housing Affordability and Housing Stock Growth
+# Task 4: Rent burden
 
 ```{r}
 income_rent <- INCOME |>
@@ -534,7 +550,7 @@ income_rent <- income_rent |>
   mutate(rent_burden_index = (rent_burden / baseline) * 100)
 
 nyc_rent_burden <- income_rent |>
-  filter(NAME == "New York-Newark-Jersey City, NY-NJ-PA") |>
+  filter(str_detect(NAME, "New York")) |>
   select(year, rent_burden_index, rent_burden)
 
 DT::datatable(nyc_rent_burden, caption = "NYC Rent Burden Over Time")
@@ -568,9 +584,7 @@ DT::datatable(
 library(ggplot2)
 
 ggplot(income_rent, aes(x = year, y = rent_burden_index, group = NAME)) +
-  geom_line(alpha = 0.2) +
-  gghighlight::gghighlight(NAME %in% c("New York-Newark-Jersey City, NY-NJ-PA",
-                                       "Los Angeles-Long Beach-Anaheim, CA")) +
+  geom_line(alpha = 0.5) +
   labs(
     title = "Rent Burden Index Over Time",
     y = "Rent Burden Index (100 = Baseline Year Avg)",
@@ -579,8 +593,7 @@ ggplot(income_rent, aes(x = year, y = rent_burden_index, group = NAME)) +
   theme_minimal()
 ```
 
-
-# Task 5: Housing Growth 
+# Task 5: Housing Growth
 
 ```{r}
 housing_growth <- POPULATION %>%
@@ -711,4 +724,53 @@ yimby_cbsas <- combined %>%
 
 DT::datatable(yimby_cbsas, caption = "Most 'YIMBY' CBSAs (High Rent, Falling Burden, Pop Growth, Housing Growth)")
 ```
+# Policy Brief: Advancing YIMBY Housing Growth through Federal Support
+To ensure every community has access to affordable, abundant housing, this brief proposes federal incentives for municipalities that demonstrate YIMBY-oriented progress — measured by rent burden and housing growth metrics.
 
+## Identifying Key Sponsors
+
+### Primary Sponsor (YIMBY Success City): Houston, TX
+Houston has demonstrated consistent population and housing growth, accompanied by a decline in rent burden over time. Its flexible zoning regulations and pro-development policies make it a model for how deregulated markets can support affordability through supply expansion.
+
+### Co-Sponsor (NIMBY City): New York City, NY
+New York City, by contrast, exhibits persistently high rent burdens and slower housing development relative to demand. Encouraging YIMBY reforms here would help alleviate rent pressures, reduce displacement, and improve housing access for working- and middle-class families.
+
+### Support from Key Interest Groups
+
+To ensure bipartisan and broad-based support, we identify two occupational groups that stand to benefit directly from YIMBY-friendly policy reforms:
+
+#### Construction and Skilled Trades Workers
+
+A federal YIMBY initiative would expand housing projects nationwide, increasing job opportunities for construction, carpentry, electrical, and plumbing professionals.
+
+Higher housing demand ensures long-term employment stability and wage growth within these sectors.
+
+#### Teachers and Public Service Workers
+
+Public-sector workers often struggle with housing costs in high-rent cities.
+
+Lower rent burdens would free up income, improve retention in critical local jobs, and strengthen community stability.
+
+## Proposed Federal Action
+
+We propose a Federal YIMBY Incentive Program, designed to reward municipalities that:
+
+- Reduce average rent burden over a five-year period;
+
+- Achieve sustained population growth; and
+
+- Demonstrate above-average housing construction activity relative to local demand.
+
+Eligible cities would receive grants to support infrastructure, public transportation, and sustainable development in growing neighborhoods.
+
+## Metrics for Evaluation
+
+1. Rent Burden Metric
+Rent burden is defined as the ratio of annual rent expenses to household income. Cities with declining rent burdens indicate improved affordability and effective housing supply growth.
+
+2. Housing Growth Metric
+Housing growth measures the ratio of new housing permits to population, adjusted for population growth. Higher ratios signal active development responding to local demand.
+
+## Conclusion
+
+A well-structured federal YIMBY program would strengthen affordable housing markets, support working-class families, and generate new jobs across multiple industries. With a primary sponsor from Houston and a co-sponsor from New York City, Congress can bridge geographic and political divides to advance a common goal: ensuring that every American has access to a home they can afford.
