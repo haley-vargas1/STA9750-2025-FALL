@@ -1,0 +1,446 @@
+---
+title: "Mini-Project #03: Visualizing and Maintaining the Green Canopy of NYC"
+author: "Haley Vargas"
+date: today
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-depth: 3
+    toc-title: "📚 Contents"
+    smooth-scroll: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# 🌳 Introduction 🌳
+New York City’s parks and green spaces are a vital part of urban life, providing environmental, social, and aesthetic benefits to residents across the five boroughs. NYC represents nearly *900,000 trees over 500 species*! In this mini-project, we use the NYC TreeMap dataset to explore the distribution, condition, and species composition of trees across the city as well as the NYC Council Districts to determine the number and type of trees in each district. Through visualizations and analysis, we identify areas of need and propose a targeted program for Department of Parks and Recreation. 
+
+# Task 1: Data Acquisition: NYC City Council Districts 
+```{r, results='hide'}
+# Create directory if needed
+if(!dir.exists(file.path("data", "mp03"))){
+  dir.create(file.path("data", "mp03"), showWarnings = FALSE, recursive = TRUE)
+}
+
+# Reuse your custom auto-install library() function from previous assignments
+library(glue)
+library(sf)
+library(dplyr)
+library(ggplot2)
+
+download_nyc_council_boundaries <- function(){
+  # Define paths
+  data_dir <- file.path("data", "mp03")
+  zip_url <- "https://s-media.nyc.gov/agencies/dcp/assets/files/zip/data-tools/bytes/city-council/nycc_25c.zip"
+  zip_path <- file.path(data_dir, "nycc.zip")
+  unzip_dir <- file.path(data_dir, "nycc")
+  
+  # Download only if needed
+  if(!file.exists(zip_path)){
+    message("📦 Downloading NYC City Council District Boundaries...")
+    download.file(zip_url, destfile = zip_path, mode = "wb")
+  } else {
+    message("✅ Zip file already exists. Skipping download.")
+  }
+  
+  # Unzip only if needed
+  if(!dir.exists(unzip_dir)){
+    message("🗂️ Unzipping shapefile data...")
+    unzip(zip_path, exdir = unzip_dir)
+  } else {
+    message("✅ Shapefile already extracted. Skipping unzip.")
+  }
+  
+  # Read shapefile using sf
+  shp_file <- list.files(unzip_dir, pattern = "\\.shp$", full.names = TRUE, recursive = TRUE)
+  
+  if(length(shp_file) == 0){
+    stop("❌ No shapefile found after unzipping. Check folder structure inside: ", unzip_dir)
+  }
+  
+  
+  message("📖 Reading shapefile...")
+  nyc_council <- sf::st_read(shp_file[1], quiet = TRUE)
+  
+  # Transform to WGS84
+  message("🌍 Transforming to WGS84 CRS...")
+  nyc_council_wgs84 <- sf::st_transform(nyc_council, crs = "WGS84")
+  
+  message("✅ NYC Council District Boundaries ready.")
+  
+  return(nyc_council_wgs84)
+}
+
+# Example usage:
+NYC_Council_Boundaries <- download_nyc_council_boundaries()
+
+
+# Simplify geometry
+NYC_Council_Boundaries_simple <- NYC_Council_Boundaries %>%
+  mutate(geometry = st_simplify(geometry, dTolerance = 10))
+
+# Check result
+print(NYC_Council_Boundaries_simple)
+
+# testing plotting speed 
+ggplot() +
+  geom_sf(data = NYC_Council_Boundaries_simple, fill = "lightgray", color = "darkblue") +
+  theme_minimal() +
+  ggtitle("Simplified NYC City Council District Boundaries")
+```
+# Data Acquisition: NYC Tree Points
+The function utilized in the code downloads the NYC Tree Points dataset in chunks, saves each chunk locally, and then combines them into one dataset. Thus, avoiding downloading unnecessary data, preventing overuse of the API, and allowing partial downloads (like 10,000 rows). For practical purposes, I went up to n_max rows (500,000), so it would be easier for me to render. In total there are over a *million* trees!
+```{r}
+# Function to download NYC Tree Points data responsibly
+get_nyc_trees <- function(n_max = Inf) {
+  
+  # Create local folder data/mp03 if it doesn't exist
+  if(!dir.exists(file.path("data", "mp03"))){
+    dir.create(file.path("data", "mp03"), showWarnings = FALSE, recursive = TRUE)
+  }
+  
+  batch_size <- 1000L          # rows per API call
+  start_offset <- 0L           # offset
+  tree_batches <- list()       # storage
+  finished <- FALSE            # loop control
+  total_downloaded <- 0L       # track how many rows we have so far
+  
+  message("🌳 Starting NYC Tree Points download...")
+  
+  while(!finished){
+    
+    # Stop early if we reached n_max
+    if(total_downloaded >= n_max){
+      message("🛑 Reached n_max limit, stopping early.")
+      break
+    }
+    
+    # Adjust final batch size if nearing n_max
+    this_batch_size <- min(batch_size, n_max - total_downloaded)
+    
+    batch_file <- file.path(
+      "data", "mp03",
+      paste0("nyc_tree_batch_", start_offset, ".geojson")
+    )
+    
+    # Download only if missing
+    if(!file.exists(batch_file)){
+      message(paste0("📦 Downloading batch at offset ", start_offset, "..."))
+      
+      httr2::request("https://data.cityofnewyork.us/resource/hn5i-inap.geojson") |>
+        httr2::req_url_query(`$limit` = this_batch_size, `$offset` = start_offset) |>
+        httr2::req_retry(max_tries = 5) |>
+        httr2::req_perform(path = batch_file)
+      
+    } else {
+      message(paste0("✅ Batch at offset ", start_offset, " already exists."))
+    }
+    
+    # Read the chunk
+    trees_chunk <- sf::st_read(batch_file, quiet = TRUE)
+    
+    if(nrow(trees_chunk) == 0){
+      message("🛑 No more data returned from API.")
+      finished <- TRUE
+    } else {
+      # Convert date to character
+      if("planteddate" %in% names(trees_chunk)){
+        trees_chunk$planteddate <- as.character(trees_chunk$planteddate)
+      }
+      
+      tree_batches <- c(tree_batches, list(trees_chunk))
+      total_downloaded <- total_downloaded + nrow(trees_chunk)
+      
+      message(paste0("✅ Downloaded ", nrow(trees_chunk),
+                     " rows (total: ", total_downloaded, ")."))
+      
+      start_offset <- start_offset + batch_size
+      
+      if(nrow(trees_chunk) < this_batch_size){
+        finished <- TRUE
+      }
+    }
+  }
+  
+  message("🔗 Combining downloaded batches...")
+  all_trees <- dplyr::bind_rows(tree_batches)
+  
+  message(paste0("🌲 Final dataset contains ", nrow(all_trees), " trees."))
+  
+  return(all_trees)
+}
+
+# Run function for first 500,000 rows
+nyc_trees <- get_nyc_trees(n_max = 500000)
+```
+
+# Task 3: Mapping NYC Trees
+```{r}
+ggplot() +
+  geom_sf(data = NYC_Council_Boundaries_simple,
+          fill = "gray95", color = "black", size = 0.2) +
+  geom_sf(data = nyc_trees,
+          color = "darkgreen", alpha = 0.4, size = 0.3) +
+  theme_minimal() +
+  labs(
+    title = "NYC Tree Points Over City Council Districts",
+    subtitle = "Sample of NYC Trees",
+    caption = "Source: NYC Open Data"
+  )
+```
+
+# Task 4: District-Level Analysis of Tree Coverage
+
+We will need to join together the tree points and district boundaries utilizing st_join and st_intersect then answer the following exploratory questions:
+```{r}
+trees_joined <- st_join(
+  nyc_trees,                 # POINT layer first
+  NYC_Council_Boundaries_simple,   # POLYGON layer
+  join = st_intersects
+)
+glimpse(trees_joined)
+```
+
+#Q1: Which council district has the most trees?
+```{r}
+district_most_trees <- trees_joined %>%
+  st_drop_geometry() %>%
+  count(CounDist, name = "num_trees") %>%
+  arrange(desc(num_trees))
+
+district_most_trees %>% slice(1)
+```
+
+#### Answer: Council District 51 has the most trees with 50,782 of them. I want to note that when I loaded the entire dataset before, I got 70,965 trees instead.
+
+#Q2: Which council district has the highest density of trees? 
+```{r}
+tree_density <- trees_joined %>%
+  st_drop_geometry() %>%
+  count(CounDist, name = "num_trees") %>%
+  left_join(
+    NYC_Council_Boundaries_simple %>% 
+      st_drop_geometry() %>% 
+      select(CounDist, Shape_Area),
+    by = "CounDist"
+  ) %>%
+  mutate(tree_density = num_trees / Shape_Area) %>%
+  arrange(desc(tree_density))
+
+tree_density %>% slice(1)
+```
+
+#### Answer: Council District 9 has the highest density of trees. When running the entire datset however, I got Council District 7.
+
+#Q3: Which district has the highest fraction of dead trees?
+```{r}
+dead_fraction <- trees_joined %>%
+  st_drop_geometry() %>%
+  group_by(CounDist) %>%
+  summarize(
+    total = n(),
+    dead = sum(tpcondition == "Dead", na.rm = TRUE),
+    dead_fraction = dead / total
+  ) %>%
+  arrange(desc(dead_fraction))
+
+dead_fraction %>% slice(1)
+```
+#### Answer: District 27 has the highest fraction of dead trees at 19.20% In my initial analysis, I got District 32 with the highest fraction of dead trees at 14.2%.
+
+#Q4: What is the most common tree species in Manhattan?
+```{r}
+trees_joined <- trees_joined %>%
+  mutate(
+    borough = case_when(
+      between(CounDist, 1, 10) ~ "Manhattan",
+      between(CounDist, 11, 18) ~ "Bronx",
+      between(CounDist, 19, 32) ~ "Queens",
+      between(CounDist, 33, 48) ~ "Brooklyn",
+      between(CounDist, 49, 51) ~ "Staten Island",
+      TRUE ~ NA_character_
+    )
+  )
+
+manhattan_species <- trees_joined %>%
+  st_drop_geometry() %>%
+  filter(borough == "Manhattan") %>%
+  count(genusspecies, sort = TRUE)
+
+manhattan_species %>% slice(1)
+```
+#### Answer: The most common tree species in Manhattan is Gleditsia triacanthos var. inermis - Thornless honeylocust with 14,115 trees, again original answer I had was 17,303.
+
+#Q5: What is the species of the tree closest to Baruch’s campus?
+
+```{r}
+# 1. Create the Baruch point
+new_st_point <- function(lat, lon) {
+  st_sfc(st_point(c(lon, lat))) |> 
+    st_set_crs("WGS84")
+}
+
+baruch_point <- new_st_point(lat = 40.7401, lon = -73.9836)
+
+# 2. Make sure both geometries are in the same CRS
+# Check CRS of your trees
+st_crs(trees_joined)  # or whatever your joined tree-object is called
+
+# If it's not EPSG:4326, transform baruch_point or trees
+baruch_point_transformed <- st_transform(baruch_point, st_crs(trees_joined))
+
+# 3. Compute distances
+trees_with_dist <- trees_joined %>%
+  mutate(
+    distance = st_distance(geometry, baruch_point_transformed)
+  )
+
+# 4. Find the nearest tree
+nearest_tree <- trees_with_dist %>% 
+  slice_min(distance, n = 1)
+
+# 5. Inspect the result
+nearest_tree
+nearest_tree$genusspecies  # species name
+
+library(tidyverse)
+library(plotly)
+install.packages("plotly")
+```
+#### The species of tree closest to Baruch's campus is the Sawtooth Oak, in my initial analysis I also discovered the Callery Pear was another species nearby.
+
+# 1. 🌳 Proposal: Dead Tree Replacement Program — NYC District 51 🌳
+District 51, located on the South Shore of Staten Island, includes neighborhoods such as Great Kills, Tottenville, Annadale, Huguenot, Eltingville, Charleston, Woodrow, Rossville, Arden Heights, and parts of Heartland Village and New Springville. The district has the highest number of dead trees in NYC, with 6,624 recorded. Contributing factors likely include aging trees, urban stressors such as heat and soil compaction, and limited maintenance in some areas.
+
+We propose a targeted dead tree replacement program, planting resilient, native species in the densest areas of tree loss and engaging the community in maintenance. This initiative will enhance air quality, urban cooling, neighborhood aesthetics, and equitable access to green space benefits for District 51 residents.
+
+
+# Count of dead trees per district:
+```{r}
+dead_counts <- trees_joined %>%
+  st_drop_geometry() %>%          # remove geometry
+  filter(tpcondition == "Dead") %>%
+  group_by(CounDist) %>%
+  summarize(n_dead = n()) %>%
+  arrange(desc(n_dead))
+
+# Top 5 districts
+top_dead <- dead_counts %>%
+  slice_max(order_by = n_dead, n = 5)
+
+top_dead
+
+```
+```{r}
+ggplot(top_dead, aes(x = reorder(factor(CounDist), n_dead), y = n_dead)) +
+  geom_col(fill = "darkred") +
+  coord_flip() +  # horizontal bars often look better
+  labs(
+    title = "Top NYC Council Districts by Number of Dead Trees",
+    x = "Council District",
+    y = "Number of Dead Trees"
+  ) +
+  theme_minimal()
+```
+```{r}
+library(plotly)
+gg_dead <- ggplot(dead_counts, aes(
+  x = reorder(factor(CounDist), n_dead),
+  y = n_dead,
+  text = paste("District:", CounDist, "<br>Dead Trees:", n_dead)
+)) +
+  geom_col(fill = "darkred") +
+  coord_flip() +
+  labs(title = "Dead Trees by District", x = "Council District", y = "Number of Dead Trees") +
+  theme_minimal()
+
+ggplotly(gg_dead, tooltip = "text")
+```
+*Data Insight*:
+A comparison of dead trees across NYC council districts shows that District 51 has the highest number, with 6,624 dead trees, followed by District 50 with 4,440 dead trees. Districts 49, 13, and 19 have significantly fewer dead trees, highlighting that District 51 is the most urgent area for intervention.
+
+```{r}
+#column name matches the boundaries dataset
+district51 <- NYC_Council_Boundaries_simple %>%
+  filter(CounDist == 51)
+
+trees_51 <- trees_joined %>%
+  filter(CounDist == 51)
+
+dead_51 <- trees_51 %>%
+  filter(tpcondition == "Dead")
+
+ggplot() +
+  geom_sf(data = district51, fill = "gray95", color = "black") +
+  geom_sf(data = trees_51, color = "lightgray", size = 0.5, alpha = 0.3) +
+  geom_sf(data = dead_51, color = "darkred", size = 1.5) +
+  coord_sf(xlim = st_bbox(district51)[c("xmin","xmax")],
+           ylim = st_bbox(district51)[c("ymin","ymax")]) +
+  labs(
+    title = "Dead Trees in District 51",
+    subtitle = "Zoomed-in view of trees marked as 'Dead'"
+  ) +
+  theme_minimal()
+```
+```{r}
+dead_all <- trees_joined %>% filter(tpcondition == "Dead")
+
+ggplot() +
+  # Full NYC council boundaries
+  geom_sf(data = NYC_Council_Boundaries_simple, fill = "gray95", color = "black") +
+  
+  # All dead trees in gray
+  geom_sf(data = dead_all, color = "darkgreen", size = 0.5, alpha = 0.3) +
+  
+  # Dead trees in District 51 in dark red
+  geom_sf(data = dead_51, color = "darkred", size = 1.5) +
+  
+  # District 51 boundary highlighted
+  geom_sf(data = district51, fill = NA, color = "red", size = 1) +
+  
+  labs(
+    title = "Dead Trees Across NYC Highlighting District 51",
+    subtitle = "District 51 dead trees in dark red; all other dead trees in green"
+  ) +
+  theme_minimal()
+```
+
+# 9. 🌲 Proposal Summary 🌲
+Factors contributing to this high number of dead trees may include:
+
+- Age and species composition of trees, with older or less resilient species more vulnerable to disease, pests, and environmental stress.
+
+- Urban stressors, such as compacted soil, heat, and limited irrigation.
+
+- Extreme weather events (storms, heavy rainfall, or droughts) that disproportionately impact street trees in older neighborhoods.
+
+- Limited maintenance in certain areas due to resource allocation or accessibility challenges.
+
+*Proposal*:
+We recommend a targeted dead tree replacement program in District 51. This program would:
+
+- Prioritize areas with the highest density of dead trees for immediate replacement.
+
+- Plant a mix of resilient, native species suited to urban conditions to improve long-term survival.
+
+- Engage community groups and local volunteers to support maintenance and stewardship.
+
+- Monitor replaced trees over time to ensure health and adapt planting strategies as needed.
+
+*Goal:*
+By replacing dead trees in District 51, the program will:
+
+Enhance air quality and urban cooling in neighborhoods most affected by tree loss.
+
+Improve public safety and neighborhood aesthetics.
+
+Promote equitable access to green space benefits across the district.
+
+*Conclusion*
+Investing in tree replacement in District 51 addresses a clear environmental and social need. By targeting the district with the highest number of dead trees in NYC, the Parks Department can maximize ecological, health, and community benefits. We are requesting a budget of $300,000,000 for this project.
+---
+
