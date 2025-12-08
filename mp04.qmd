@@ -1,0 +1,364 @@
+---
+title: "Mini-Project #04: Just the Fact(-Check)s, Ma’am!"
+author: "Haley Vargas"
+date: today
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    toc: true
+    toc-depth: 3
+    toc-title: "📚 Contents"
+    smooth-scroll: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+library(httr2)
+library(rvest)
+library(dplyr)
+library(tidyr)
+library(stringr)
+library(lubridate)
+library(purrr)
+library(ggplot2)
+library(infer)
+library(tidyverse)
+```
+
+# Introduction 
+This report analyzes payroll levels from the **Current Employment Statistics (CES)** survey and their subsequent **revisions** over the years 1979–2025.  
+We download the raw payroll levels, extract revision tables for each year, merge them, and then perform:
+
+- **6 descriptive statistics about CES over the past 45 years**
+- **4 ggplot2 visualizations of CES estimates and accuracy over the past 45 years**
+- **2 infer-based statistical tests**
+- **Fact Check of BLS Revisions**
+
+# Data Acquisition: Download CES Total Nonfarm Payroll
+
+```{r}
+req <- request("https://data.bls.gov/pdq/SurveyOutputServlet") |>
+  req_method("POST") |>
+  req_body_form(
+    request_action   = "get_data",
+    reformat         = "true",
+    from_results_page = "true",
+    from_year        = "1979",
+    to_year          = "2025",
+    `Go.x`           = "38",
+    `Go.y`           = "16",
+    initial_request  = "false",
+    data_tool        = "surveymost",
+    series_id        = "CES0000000001",
+    years_option     = "specific_years"
+  )
+
+resp <- req_perform(req)
+html <- resp |> resp_body_html()
+
+# ---- 2. Extract the data table ----
+tbl <- html |> 
+  html_element("table#table0") |> 
+  html_table()
+
+# ---- 3. Pivot from wide (Jan–Dec columns) to long format ----
+df <- tbl |>
+  pivot_longer(
+    cols = -Year,
+    names_to = "Month",
+    values_to = "level"
+  )
+
+# ---- 4. Clean values and convert to proper types ----
+payroll_data <- df |>
+  mutate(
+    Month = str_to_title(Month),                # "JAN" → "Jan"
+    level = as.numeric(str_replace(level, ",", "")),  # convert text to numeric
+    date  = ym(paste(Year, Month))              # "1979 Jan" → 1979-01-01
+  ) |>
+  drop_na(level) |>                             # remove footnote rows
+  select(date, level) |>
+  arrange(date)
+
+payroll_data
+```
+
+# Extract Revision Tables 
+```{r}
+# ---------------------------------------------
+# Helper: Extract revisions table for one year
+# ---------------------------------------------
+
+pull_year_revisions <- function(year, html_doc) {
+  
+  # Build CSS selector for the table tied to that year
+  selector <- paste0("table.regular#", year)
+  
+  tbl <- html_doc |>
+    html_element(selector) |>
+    html_element("tbody") |>
+    html_table(header = FALSE)
+  
+  # Return empty df if nothing was found
+  if (is.null(tbl) || nrow(tbl) < 1) {
+    return(tibble(
+      date = as.Date(character()),
+      original = numeric(),
+      final = numeric(),
+      revision = numeric()
+    ))
+  }
+  
+  # Extract the first 12 months + convert columns
+  parsed <- tbl |>
+    slice(1:12) |>
+    transmute(
+      month_raw = gsub("\\.", "", X1),
+      month_raw = trimws(month_raw),
+      # needed columns: original estimate, final estimate, and revision column
+      orig_val  = gsub(",", "", X3),
+      final_val = gsub(",", "", X5),
+      revis_val = gsub(",", "", X8),
+      # construct date
+      date_str  = paste(year, month_raw),
+      date      = suppressWarnings(ym(date_str)),
+      original  = suppressWarnings(as.numeric(orig_val)),
+      final     = suppressWarnings(as.numeric(final_val)),
+      revision  = suppressWarnings(as.numeric(revis_val))
+    ) |>
+    filter(!is.na(date)) |>
+    select(date, original, final, revision)
+  
+  parsed
+}
+
+# ---------------------------------------------
+# Master function: Collect all revision years
+# ---------------------------------------------
+
+compile_revisions <- function() {
+  
+  raw_resp <- request("https://www.bls.gov/web/empsit/cesnaicsrev.htm") |>
+    req_user_agent("Mozilla/5.0 (X11; Linux x86_64)") |>
+    req_perform()
+  
+  html_doc <- raw_resp |> resp_body_html()
+  
+  yr_range <- 1979:2025
+  
+  yr_range |>
+    map(~ pull_year_revisions(.x, html_doc)) |>
+    list_rbind()
+}
+
+# Retrieve full dataset
+revision_results <- compile_revisions()
+```
+
+# Merge Payroll & Revision Data
+```{r}
+payroll_revisions <- payroll_data |>
+  left_join(revision_results, by = "date") |>
+  arrange(date)
+
+payroll_revisions
+```
+
+#  Data Exploration and Visualization (Exploratory Statistics)
+## What and when were the largest revisions (positive and negative) in CES history?
+```{r}
+largest_revisions <- payroll_revisions |>
+  filter(!is.na(revision)) |>
+  slice_max(revision, n = 1, with_ties = FALSE) |>
+  mutate(type = "Largest Positive Revision") |>
+  bind_rows(
+    payroll_revisions |>
+      filter(!is.na(revision)) |>
+      slice_min(revision, n = 1, with_ties = FALSE) |>
+      mutate(type = "Largest Negative Revision")
+  )
+
+largest_revisions
+```
+
+The largest negative revision of employment was seen in March 1st of 2020, with -672 thousand jobs while the largest positive revision was seen in November 1st of 2021, with 437 thousand jobs.
+
+## Fraction of revisions that were positive by year
+```{r}
+positive_fraction_year <- payroll_revisions |>
+  mutate(pos = revision > 0) |>
+  filter(!is.na(revision)) |>
+  group_by(year = year(date)) |>
+  summarize(
+    percent_positive = mean(pos) * 100,
+    n_months = n()
+  )
+
+positive_fraction_year
+```
+
+
+## Average revision size (absolute and percentage of level)
+```{r}
+avg_revision_stats <- payroll_revisions |>
+  filter(!is.na(revision), !is.na(level)) |>
+  summarize(
+    avg_revision = mean(revision),
+    avg_abs_revision = mean(abs(revision)),
+    avg_pct_revision = mean(abs(revision) / level) * 100
+  )
+
+avg_revision_stats
+```
+On average, the revised values changed by 11.2 thousand, with an absolute average shift of 56.7 thousand, representing about a 4.82% revision relative to the original level.
+
+## Relative revision magnitude over time (absolute revision / final estimate)
+```{r}
+relative_revision_trend <- payroll_revisions |>
+  filter(!is.na(final), !is.na(revision)) |>
+  mutate(rel_revision = abs(revision) / final) |>
+  group_by(year = year(date)) |>
+  summarize(
+    avg_rel_revision = mean(rel_revision, na.rm = TRUE)
+  )
+
+relative_revision_trend
+```
+
+## Average revision by month (seasonality patterns)
+```{r}
+
+revision_by_month <- payroll_revisions |>
+  filter(!is.na(revision)) |>
+  mutate(month = month(date, label = TRUE, abbr = TRUE)) |>
+  group_by(month) |>
+  summarize(
+    avg_revision = mean(revision),
+    avg_abs_revision = mean(abs(revision))
+  )
+
+revision_by_month
+```
+The average revisions by month shows clear seasonal patterns in revision size. For instance, September shows the largest revision of ≈80.2k jobs, followed by April (≈69.4k), and March (≈64.6k) while February (≈43.7k) and January (≈48.2k) show the smallest. It demonstrates larger spring and early-fall revision adjustments.
+
+## Summary statistics for CES level and revision, 45-year window
+```{r}
+ces_summary <- payroll_revisions |>
+  summarize(
+    min_level = min(level, na.rm = TRUE),
+    max_level = max(level, na.rm = TRUE),
+    mean_level = mean(level, na.rm = TRUE),
+    sd_level = sd(level, na.rm = TRUE),
+    mean_revision = mean(revision, na.rm = TRUE),
+    sd_revision = sd(revision, na.rm = TRUE)
+  )
+
+ces_summary
+```
+There is a positive mean revision of ~11.24 thousand jobs meaning there is employment growth.
+
+#  Visualizations
+
+# Largest Positive & Negative Revisions Over Time
+```{r}
+ggplot(payroll_revisions, aes(x = date, y = revision)) +
+  geom_line() +
+  geom_point(data = largest_revisions, aes(x = date, y = revision), 
+             color = "red", size = 3) +
+  labs(
+    title = "CES Revisions Over Time (1979–2025)",
+    subtitle = "Red points indicate largest upward and downward revisions",
+    x = "Year",
+    y = "Revision (Jobs)"
+  ) +
+  theme_minimal()
+```
+
+#  Fraction of Positive Revisions by Year
+```{r}
+ggplot(positive_fraction_year, aes(x = year, y = percent_positive)) +
+  geom_col() +
+  labs(
+    title = "Fraction of Positive CES Revisions by Year",
+    subtitle = "Values closer to 1 = more upward revisions",
+    x = "Year",
+    y = "Positive Revision Fraction"
+  ) +
+  theme_minimal()
+```
+
+# Relative Revision Magnitude Over Time
+```{r}
+ggplot(relative_revision_trend, aes(x = year, y = avg_rel_revision)) +
+  geom_line() +
+  labs(
+    title = "Relative CES Revision Magnitude (1979–2025)",
+    subtitle = "Absolute revision amount divided by final estimate",
+    x = "Year",
+    y = "Relative Revision"
+  ) +
+  theme_minimal()
+```
+
+# Average Revision by Month
+```{r}
+ggplot(revision_by_month, aes(x = month, y = avg_abs_revision)) +
+  geom_col() +
+  labs(
+    title = "Average Absolute CES Revision by Month",
+    subtitle = "Seasonality of revision magnitude",
+    x = "Month",
+    y = "Average Absolute Revision (Jobs)"
+  ) +
+  theme_minimal()
+```
+
+# Statistical Tests
+
+```{r}
+
+payroll_revisions <- payroll_revisions |>
+  mutate(
+    # logical versions
+    neg_revision      = revision < 0,
+    large_revision    = abs(revision / level) > 0.01,     # >1% revision
+    post_2000         = year(date) >= 2000,
+    post_2020         = year(date) >= 2020,
+    
+    # categorical versions for prop_test()
+    neg_cat   = if_else(neg_revision, "negative", "non_negative"),
+    large_cat = if_else(large_revision, "large", "small")
+  )
+```
+
+
+# Has the fraction of negative revisions increased post-2000?
+
+```{r}
+prop_test(
+  payroll_revisions,
+  response = neg_cat,
+  success  = "negative",
+  explanatory = post_2000,
+  alternative = "greater"
+)
+```
+The p value is greater than 0.05, specifically, 0.186 which shows there is no significant increase of negative revisions post-2000. 
+
+#  Did the average magnitude of revisions increase after 2020?
+```{r}
+payroll_revisions |>
+  mutate(abs_revision = abs(revision)) |>
+  t_test(abs_revision ~ post_2020,
+         order = c("TRUE", "FALSE"),
+         alternative = "greater")
+
+```
+**p = 0.01, p < 0.05**
+There is statistically significant evidence that the average absolute revision is larger post-2020 than in pre-2020 years. 
