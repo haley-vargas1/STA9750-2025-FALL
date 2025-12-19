@@ -1,0 +1,614 @@
+---
+title: "Final Project Individual Report: Kitchen Nightmares 🔪"
+author: "Haley Vargas"
+date: today
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
+    theme: Yeti
+    toc: true
+    toc-depth: 3
+    toc-title: "📚 Contents"
+    smooth-scroll: true
+execute:
+  echo: true
+  output: false
+  warning: false
+  message: false
+---
+
+This report outlines the analytical workflow used in this project; specifically, for question 3: "Do neighborhoods with higher obesity or diabetes rates have a higher percentage of American cuisines according to DOHMH data?"
+
+# Data Acquisition and Processing - Importing Datasets
+
+Two datasets from different formats are imported and prepared for analysis. These include [NYC Restaurant Inspection Data](https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j/about_data) and the [Community Health Profiles dataset](https://www.nyc.gov/site/doh/data/data-publications/profiles.page). Substantial pre-processing is performed to clean variables, resolve inconsistencies, and create a shared geographic identifier.
+
+```{r}
+library(readxl)
+library(tibble)
+library(dplyr)
+library(tidyr)
+library(sf)
+library(ggplot2)
+library(stringr)
+
+
+inspection_df <- read.csv("C:/Users/haley/Downloads/STA9750Project/DOHMH_New_York_City_Restaurant_Inspection_Results_20251002.csv")
+head(inspection_df, 5)
+
+library(readxl)
+community_health_df <- read_excel("C:/Users/haley/Downloads/STA9750Project/2022-chp-pud.xlsx", 
+                                  sheet = "CHP_all_data", 
+                                  skip = 1)
+head(community_health_df, 5)
+```
+
+## Mapping ZIP Codes to neighborhood group
+
+ZIP codes from the inspection dataset are mapped to NYC neighborhood groupings from CHP data to create a consistent geographic unit across datasets.
+
+```{r}
+inspection_df <- inspection_df %>%
+  mutate(
+    neighborhood_group = case_when(
+      ZIPCODE %in% c(10031, 10032, 10033, 10034, 10040) ~ "Washington Heights and Inwood",
+      ZIPCODE %in% c(10026, 10030, 10037, 10039) ~ "Central Harlem",
+      ZIPCODE %in% c(10029, 10035) ~ "East Harlem",
+      ZIPCODE %in% c(10023, 10024) ~ "Upper West Side",
+      ZIPCODE %in% c(10021, 10028, 10044, 10065, 10075, 10128) ~ "Upper East Side",
+      ZIPCODE %in% c(10001, 10011, 10018, 10019, 10020, 10036) ~ "Clinton and Chelsea",
+      ZIPCODE %in% c(10010, 10016, 10017, 10022) ~ "Stuyvesant Town and Turtle Bay",
+      ZIPCODE %in% c(10012, 10013, 10014) ~ "Greenwich Village and Soho",
+      ZIPCODE %in% c(10002, 10003, 10009) ~ "Lower East Side and Chinatown",
+      ZIPCODE %in% c(10004, 10005, 10006, 10007, 10038, 10280) ~ "Financial District",
+      ZIPCODE %in% c(10025, 10027) ~ "Morningside Heights and Hamilton Heights",
+      
+      ZIPCODE %in% c(10301, 10302, 10303, 10304, 10305, 10310) ~ "St. George and Stapleton",
+      ZIPCODE %in% c(10306, 10314) ~ "South Beach and Willowbrook",
+      ZIPCODE %in% c(10307, 10308, 10309, 10312) ~ "Tottenville and Great Kills",
+      
+      ZIPCODE %in% c(10451, 10454, 10455, 10456, 10459) ~ "Mott Haven and Melrose",
+      ZIPCODE %in% c(10474, 10475) ~ "Hunts Point and Longwood",
+      ZIPCODE %in% c(10453, 10457, 10458, 10460) ~ "Morrisania and Crotona",
+      ZIPCODE %in% c(10452, 10456, 10451) ~ "Highbridge and Concourse",
+      ZIPCODE %in% c(10453, 10458, 10467, 10468) ~ "Fordham and University Heights",
+      ZIPCODE %in% c(10457, 10458, 10461) ~ "Belmont and East Tremont",
+      ZIPCODE %in% c(10463, 10471) ~ "Kingsbridge Heights and Bedford",
+      ZIPCODE %in% c(10463, 10471) ~ "Riverdale and Fieldston",
+      ZIPCODE %in% c(10462, 10473) ~ "Parkchester and Soundview",
+      ZIPCODE %in% c(10461, 10465, 10472, 10473) ~ "Throgs Neck and Co-op City",
+      ZIPCODE %in% c(10461, 10462) ~ "Morris Park and Bronxdale",
+      ZIPCODE %in% c(10466, 10467, 10469) ~ "Williamsbridge and Baychester",
+      
+      ZIPCODE %in% c(11211, 11222) ~ "Greenpoint and Williamsburg",
+      ZIPCODE %in% c(11201, 11205) ~ "Fort Greene and Brooklyn Heights",
+      ZIPCODE %in% c(11206, 11216, 11221, 11233, 11238) ~ "Bedford Stuyvesant",
+      ZIPCODE %in% c(11207, 11221, 11237) ~ "Bushwick",
+      ZIPCODE %in% c(11207, 11208) ~ "East New York and Starrett City",
+      ZIPCODE %in% c(11215, 11217, 11231) ~ "Park Slope and Carroll Gardens",
+      ZIPCODE %in% c(11220, 11232) ~ "Sunset Park",
+      ZIPCODE %in% c(11213, 11216, 11225, 11238) ~ "Crown Heights and Prospect Heights",
+      ZIPCODE %in% c(11203, 11212) ~ "South Crown Heights and Lefferts Gardens",
+      ZIPCODE %in% c(11209, 11220) ~ "Bay Ridge and Dyker Heights",
+      ZIPCODE %in% c(11204, 11214, 11228) ~ "Bensonhurst",
+      ZIPCODE %in% c(11204, 11218, 11219, 11230) ~ "Borough Park",
+      ZIPCODE %in% c(11224) ~ "Coney Island",
+      ZIPCODE %in% c(11203, 11210, 11226) ~ "Flatbush and Midwood",
+      ZIPCODE %in% c(11235) ~ "Sheepshead Bay",
+      ZIPCODE %in% c(11212, 11233) ~ "Brownsville",
+      ZIPCODE %in% c(11203, 11226, 11230) ~ "East Flatbush",
+      ZIPCODE %in% c(11236, 11234) ~ "Flatlands and Canarsie",
+      
+      ZIPCODE %in% c(11101, 11102, 11103, 11104, 11105, 11106, 11369, 11370, 11377) ~ "Long Island City and Astoria",
+      ZIPCODE %in% c(11377, 11378, 11379) ~ "Woodside and Sunnyside",
+      ZIPCODE %in% c(11372, 11373, 11374) ~ "Jackson Heights",
+      ZIPCODE %in% c(11373, 11375, 11368) ~ "Elmhurst and Corona",
+      ZIPCODE %in% c(11385, 11378) ~ "Ridgewood and Maspeth",
+      ZIPCODE %in% c(11374, 11375, 11385) ~ "Rego Park and Forest Hills",
+      ZIPCODE %in% c(11354, 11355, 11356, 11357, 11358) ~ "Flushing and Whitestone",
+      ZIPCODE %in% c(11365, 11366, 11367) ~ "Hillcrest and Fresh Meadows",
+      ZIPCODE %in% c(11415, 11416, 11421) ~ "Kew Gardens and Woodhaven",
+      ZIPCODE %in% c(11417, 11419, 11420) ~ "South Ozone Park and Howard Beach",
+      ZIPCODE %in% c(11360, 11361, 11362) ~ "Bayside and Little Neck",
+      ZIPCODE %in% c(11412, 11423, 11432, 11433, 11434) ~ "Jamaica and Hollis",
+      ZIPCODE %in% c(11427, 11428, 11429) ~ "Queens Village",
+      ZIPCODE %in% c(11691, 11692, 11693, 11694, 11695) ~ "Rockaway and Broad Channel",
+      TRUE ~ "Other / Not Mapped"
+    )
+  )
+
+
+#head(inspection_df, 5)
+```
+
+## Merging Datasets
+
+Restaurant inspection data is merged with community health indicators using the neighborhood group as the join key.
+
+```{r}
+combined_df <- inspection_df %>%
+  left_join(community_health_df, 
+            by = c("neighborhood_group" = "Name"))
+
+
+head(combined_df, 5)
+```
+
+# Data cleaning and variable selection
+
+```{r}
+df_small <- combined_df[, c(
+  "neighborhood_group", "Borough", "DBA", "Obesity", "Diabetes",
+  "BORO", "BUILDING", "STREET", "ZIPCODE", "CUISINE.DESCRIPTION"
+)]
+
+df_clean <- df_small %>% drop_na()
+
+df_clean <- df_clean %>%
+  select(-BORO) %>%
+  rename(
+    Restaurant_Name = DBA,
+    Neighborhood = neighborhood_group,
+    Cuisine_Description = CUISINE.DESCRIPTION
+  )
+
+sum(df_clean$Cuisine_Description == "", na.rm = TRUE)
+
+
+```
+
+## Grouping cuisine descriptions into categories
+
+For my respective question, cuisine descriptions had to be grouped into broader categories using a custom dictionary and classification function.
+
+There are 6 categories that I grouped the cuisine descriptions into: Asian, European, American, Latin American, Beverages/Desserts and Mixed/Other. 
+
+To make the analysis for the question similar to what we had previously, (looking at fast food counts per neighborhood), I figured the American cuisine category would be fitting as it includes descriptions of fast food.
+
+```{r}
+#Unique values in cuisine description and grouping descriptions into categories with dictionary 
+unique(df_clean$Cuisine_Description)
+
+categories <- list(
+  Asian = c('Pakistani','Indian','Bangladeshi','Japanese','Chinese','Filipino','Thai','Korean',
+            'Southeast Asian','Asian/Asian Fusion','Chinese/Japanese','Indonesian','Afghan'),
+  
+  European = c('French','New French','Irish','German','Polish','Russian','Scandinavian','English',
+               'Continental','Czech','Basque','Armenian','Eastern European','Portuguese','Spanish','Greek','Turkish','Italian'),
+  
+  American = c('American','New American','Tex-Mex','Southwestern','Soul Food','Steakhouse','Californian','Hawaiian',
+               'Barbecue','Hamburgers','Hotdogs','Hotdogs/Pretzels','Pizza','Donuts','Pancakes/Waffles','Seafood','Chicken'),
+  
+ `Latin American` = c('Peruvian','Brazilian','Chilean','Mexican','Latin American','Caribbean','Tapas','Chimichurri',
+                       'Creole','Creole/Cajun','Cajun','Chinese/Cuban'),
+  
+  `Beverages/Desserts` = c('Coffee/Tea','Bakery Products/Desserts','Frozen Desserts',
+                           'Juice, Smoothies, Fruit Salads','Bottled Beverages','Nuts/Confectionary'),
+  
+  `Mixed/Other` = c('Jewish/Kosher','Moroccan','Egyptian','Lebanese','Iranian','Middle Eastern','African','Ethiopian',
+                    'Australian','Polynesian','Vegetarian','Vegan','Fruits/Vegetables','Fusion','Mediterranean','Other',
+                    'Not Listed/Not Applicable','Soups/Salads/Sandwiches','Sandwiches',
+                    'Sandwiches/Salads/Mixed Buffet','Bagels/Pretzels','Salads','Soups','Haute Cuisine')
+)
+
+get_category <- function(Cuisine_Description) {
+  for (cat in names(categories)) {
+    if (Cuisine_Description %in% categories[[cat]]) {
+      return(cat)
+    }
+  }
+  return(NA)   # if not found
+}
+
+df_clean <- df_clean %>%
+  mutate(Cuisine_Category = sapply(Cuisine_Description, get_category))
+
+colSums(is.na(df_clean))
+```
+
+# Data Analysis
+
+This section constructs neighborhood-level metrics and examines relationships between restaurant cuisine composition and community health indicators.
+
+## Cuisine composition by neighborhood
+
+Restaurant counts are aggregated by neighborhood and cuisine category, and the percentage of American cuisine restaurants is calculated.
+
+```{r}
+cuisine_counts <- df_clean %>%
+  drop_na(Cuisine_Category, Neighborhood) %>%   # remove missing
+  group_by(Neighborhood, Cuisine_Category) %>%
+  summarize(count = n(), .groups = "drop") %>%
+  tidyr::pivot_wider(
+    names_from = Cuisine_Category,
+    values_from = count,
+    values_fill = 0
+  ) %>%
+  rowwise() %>%  # needed for row-wise operations
+  mutate(Total = sum(c_across(where(is.numeric)))) %>%
+  ungroup()
+
+#seeing percent american
+cuisine_counts <- cuisine_counts %>%
+  mutate(
+    pct_american = (American / Total) * 100
+  )
+```
+
+### American Cuisine Composition by Neighborhood - Top 20
+
+```{r}
+#| output: true
+
+top20_american <- cuisine_counts %>%
+  arrange(desc(pct_american)) %>%  # sort descending
+  slice(1:20)  
+
+ggplot(top20_american, aes(x = reorder(Neighborhood, pct_american), y = pct_american)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +  # horizontal bars
+  labs(
+    title = "Top 20 NYC Neighborhoods by % of American Cuisine Restaurants",
+    x = "Neighborhood",
+    y = "% of American Cuisine Restaurants"
+  ) +
+  theme_minimal() +
+theme(
+  plot.title = element_text(size = 10),  # adjust title font size
+)
+```
+
+Before examining the relationship between neighborhood obesity and diabetes rates and the proportion of American cuisine restaurants, I first identified neighborhoods with the highest concentration of American cuisines. To do this, I created a subset of the cuisine_counts dataset by sorting neighborhoods in descending order based on the percentage of American cuisine restaurants (pct_american) and selecting the top 20 neighborhoods. This subset provided the necessary inputs to construct a comparative bar chart. The resulting visualization indicates that Coney Island in Brooklyn has the highest proportion of American cuisine restaurants, exceeding 50%.
+
+```{r}
+
+if (!file.exists("data/mp03/nycc_25c.shp")) {
+  
+  # Create directory if needed
+  dir.create("data/mp03", showWarnings = FALSE, recursive = TRUE)
+  
+  # --- Load required packages ---
+  if (!require("sf")) install.packages("sf")
+  library(sf)
+  
+  if (!require("utils")) install.packages("utils")  # for download.file, unzip
+  library(utils)
+  
+  # --- Define constants ---
+  ZIP_URL  <- "https://s-media.nyc.gov/agencies/dcp/assets/files/zip/data-tools/bytes/city-council/nycc_25c.zip"
+  ZIP_PATH <- "data/mp03/nycc_25c.zip"
+  EXTRACT_DIR <- "data/mp03"
+  
+  # --- Step 1: Download if not already there ---
+  if (!file.exists(ZIP_PATH)) {
+    #cat("Downloading NYC Council District boundaries...\n")
+    download.file(ZIP_URL, destfile = ZIP_PATH, mode = "wb")
+    #cat("Download complete:", ZIP_PATH, "\n")
+  } else {
+    #cat("Zip file already exists. Skipping download.\n")
+  }
+  
+  # --- Step 2: Unzip only if needed ---
+  if (length(list.files(EXTRACT_DIR, pattern = "\\.shp$", full.names = TRUE, recursive = TRUE)) == 0) {
+    #cat("Extracting zip file...\n")
+    unzip(ZIP_PATH, exdir = EXTRACT_DIR)
+    #cat("Extraction complete.\n")
+  } else {
+    #cat("Files already extracted. Skipping unzip.\n")
+  }
+  
+  # --- Step 3: Read shapefile ---
+  shp_file <- list.files(EXTRACT_DIR, pattern = "\\.shp$", full.names = TRUE, recursive = TRUE)[1]
+  
+  if (is.na(shp_file)) {
+    stop("No shapefile found in extracted contents. Please verify the zip file.")
+  }
+  
+  #cat("Reading shapefile:", shp_file, "\n")
+  nycc_boundaries <- st_read(shp_file, quiet = TRUE)
+  #cat("Read complete.\n")
+  
+  # --- Step 4: Transform CRS to WGS84 ---
+  nycc_boundaries <- st_transform(nycc_boundaries, crs = "WGS84")
+  #cat("Coordinate system transformed to WGS84.\n")
+  
+  # --- Step 5: Save the transformed shapefile for future use ---
+  st_write(nycc_boundaries, "data/mp03/nycc_25c_wgs84.shp", delete_dsn = TRUE, quiet = TRUE)
+  #cat("Saved transformed shapefile to data/mp03/nycc_25c_wgs84.shp\n")
+  
+} else {
+  #cat("Shapefile already exists. Skipping download and transformation.\n")
+}
+
+# --- Step 6: Return the data object ---
+nycc_boundaries <- st_read("data/mp03/nycc_25c_wgs84.shp", quiet = TRUE)
+
+
+```
+
+### American Cuisine Composition by Neighborhood - Map (Spatial Perspective)
+
+To present the distribution of American cuisine restaurants from a spatial perspective, I adapted the workflow developed in Mini Project 3, which involved working with shapefiles and New York City Council district boundaries to analyze the spatial distribution of trees across NYC. Using a similar approach, spatial boundary data for New York City Council districts were downloaded and processed with the sf package, ensuring that all spatial data were transformed to a consistent coordinate reference system (WGS84) for accurate overlay. Neighborhood-level American cuisine percentages were then linked to approximate geographic centroids, allowing each neighborhood to be represented as a single point in geographic space. The resulting spatial dataset was converted into an sf object and visualized using ggplot2, with neighborhood points overlaid on council district boundaries and colored according to the percentage of American cuisine restaurants. A continuous color scale was applied to highlight variation across neighborhoods. 
+
+```{r fig.height=12, fig.width=16}
+#| output: true
+# Install if not yet installed
+library(tigris)
+library(viridis)
+library(maps)
+
+# Make tigris return sf objects
+options(tigris_class = "sf")
+
+
+# Neighborhood coordinates (approximate centers)
+neighborhood_coords <- data.frame(
+  Neighborhood = c(
+    "Financial District",
+    "Greenwich Village and Soho",
+    "Lower East Side and Chinatown",
+    "Clinton and Chelsea",
+    "Midtown",
+    "Stuyvesant Town and Turtle Bay",
+    "Upper West Side",
+    "Upper East Side",
+    "Morningside Heights and Hamilton Heights",
+    "Central Harlem",
+    "East Harlem",
+    "Washington Heights and Inwood",
+    "Mott Haven and Melrose",
+    "Hunts Point and Longwood",
+    "Morrisania and Crotona",
+    "Highbridge and Concourse",
+    "Fordham and University Heights",
+    "Belmont and East Tremont",
+    "Kingsbridge Heights and Bedford",
+    "Riverdale and Fieldston",
+    "Parkchester and Soundview",
+    "Throgs Neck and Co-op City",
+    "Morris Park and Bronxdale",
+    "Williamsbridge and Baychester",
+    "Greenpoint and Williamsburg",
+    "Fort Greene and Brooklyn Heights",
+    "Bedford Stuyvesant",
+    "Bushwick",
+    "East New York and Starrett City",
+    "Park Slope and Carroll Gardens",
+    "Sunset Park",
+    "Crown Heights and Prospect Heights",
+    "South Crown Heights and Lefferts Gardens",
+    "Bay Ridge and Dyker Heights",
+    "Bensonhurst",
+    "Borough Park",
+    "Coney Island",
+    "Flatbush and Midwood",
+    "Sheepshead Bay",
+    "Brownsville",
+    "East Flatbush",
+    "Flatlands and Canarsie",
+    "Long Island City and Astoria",
+    "Woodside and Sunnyside",
+    "Jackson Heights",
+    "Elmhurst and Corona",
+    "Ridgewood and Maspeth",
+    "Rego Park and Forest Hills",
+    "Flushing and Whitestone",
+    "Hillcrest and Fresh Meadows",
+    "Kew Gardens and Woodhaven",
+    "South Ozone Park and Howard Beach",
+    "Bayside and Little Neck",
+    "Jamaica and Hollis",
+    "Queens Village",
+    "Rockaway and Broad Channel",
+    "St. George and Stapleton",
+    "South Beach and Willowbrook",
+    "Tottenville and Great Kills"
+  ),
+  lon = c(
+    -74.010, -73.996, -73.989, -73.993, -73.981, -73.967, -73.976, -73.959, -73.957, -73.944,
+    -73.940, -73.930, -73.912, -73.887, -73.898, -73.915, -73.906, -73.878, -73.891, -73.905,
+    -73.856, -73.820, -73.843, -73.860, -73.952, -73.974, -73.944, -73.918, -73.980, -73.988,
+    -73.971, -73.949, -73.985, -73.981, -73.965, -73.975, -73.978, -73.961, -73.943, -73.906,
+    -73.912, -73.915, -73.925, -73.919, -73.885, -73.873, -73.908, -73.829, -73.800, -73.820,
+    -73.750, -73.778, -73.740, -73.766, -74.071, -74.096, -74.086, -74.079, -74.081
+  ),
+  lat = c(
+    40.707, 40.733, 40.715, 40.746, 40.754, 40.734, 40.787, 40.773, 40.809, 40.811,
+    40.792, 40.844, 40.814, 40.818, 40.831, 40.841, 40.858, 40.852, 40.879, 40.902,
+    40.840, 40.832, 40.836, 40.857, 40.724, 40.686, 40.683, 40.696, 40.676, 40.645,
+    40.640, 40.647, 40.631, 40.634, 40.618, 40.609, 40.618, 40.620, 40.574, 40.655,
+    40.612, 40.640, 40.617, 40.743, 40.744, 40.750, 40.737, 40.721, 40.746, 40.730,
+    40.729, 40.601, 40.644, 40.718, 40.637, 40.525, 40.632, 40.621, 40.585
+  )
+)
+
+
+americancuisine_map_df <- cuisine_counts %>%
+  select(Neighborhood, pct_american) %>%
+  left_join(neighborhood_coords, by = "Neighborhood")
+
+
+# Remove rows with missing coordinates
+americancuisine_map_clean <- americancuisine_map_df %>%
+  filter(!is.na(lon) & !is.na(lat))
+
+
+# Convert to sf
+american_sf <- st_as_sf(americancuisine_map_clean, coords = c("lon", "lat"), crs = 4326)
+
+ggplot() +
+  geom_sf(data = nycc_boundaries, fill = "grey95", color = "white") +
+  geom_sf(data = american_sf, aes(color = pct_american), size = 10) +
+  scale_color_gradient(low = "lightgrey", high = "red", name = "American Cuisine (%)") +
+  labs(title = "NYC Neighborhood by % of American Cuisines") +
+  theme_void() +  # Removes axes, ticks, background
+  theme(
+    plot.title = element_text(size = 32, face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(size = 22, hjust = 0.5),
+    legend.title = element_text(size = 18),
+    legend.text = element_text(size = 16)
+  )
+
+# To make the figure larger when saving
+ggsave("NYC_AmericanCuisine_Map.png", width = 16, height = 12, dpi = 300)
+```
+An interactive version of the map was created using plotly, enabling users to explore neighborhood-specific values through hover tooltips. While this method does not rely on exact neighborhood polygons, it provides an intuitive and accessible spatial summary of neighborhood-level restaurant composition.
+
+```{r}
+#| output: true
+library(plotly)
+p <- ggplot() +
+  geom_sf(data = nycc_boundaries, fill = "grey95", color = "white") +
+  geom_point(
+    data = americancuisine_map_df,
+    aes(
+      x = lon,
+      y = lat,
+      color = pct_american,
+      text = paste0(
+        "Neighborhood: ", Neighborhood,
+        "<br>% American Cuisine: ", round(pct_american, 1), "%"
+      )
+    ),
+    size = 4,
+    alpha = 0.8
+  ) +
+  scale_color_viridis_c(name = "% American Cuisine") +
+  labs(title = "Percentage of American Cuisine Restaurants by NYC Neighborhood") +
+  theme_void()
+
+ggplotly(p, tooltip = "text")
+```
+
+## Community health indicators by neighborhood
+
+Obesity and diabetes rates are averaged at the neighborhood level and merged with cuisine metrics.
+
+```{r}
+health_rates <- df_clean %>%
+  group_by(Neighborhood) %>%
+  summarize(
+    avg_obesity = mean(Obesity, na.rm = TRUE),
+    avg_diabetes = mean(Diabetes, na.rm = TRUE)
+  ) %>%
+  drop_na()
+
+analysis_df <- cuisine_counts %>%
+  left_join(health_rates, by = "Neighborhood")
+```
+
+### Obesity Rate by Neighborhood
+
+```{r}
+#| output: true
+
+top20_obesity <- analysis_df %>%
+  arrange(desc(avg_obesity)) %>%
+  slice(1:20)
+
+ggplot(top20_obesity, aes(x = reorder(Neighborhood, -avg_obesity), y = avg_obesity)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +  # makes bars horizontal
+  labs(
+    title = "Obesity Rate by Neighborhood (Top 20)",
+    x = "Neighborhood",  # value axis
+    y = "Percentage of adults ages 18 and older who have obesity"        # category axis
+  ) +
+  theme_minimal()
+```
+
+Visualizing the top 20 neighborhoods with the highest obesity rates demonstrated that Belmont and East Tremont had the highest rate at approximately 40.87% following Morrisania and Crotona (40.87%) and Flatlands and Canarsie (40.72%).
+
+### Diabetes rate by Neighborhood
+
+```{r}
+#| output: true
+top20_diabetes <- analysis_df %>%
+  arrange(desc(avg_diabetes)) %>%
+  slice(1:20)
+
+ggplot(top20_obesity, aes(x = reorder(Neighborhood, -avg_diabetes), y = avg_diabetes)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  coord_flip() +  # makes bars horizontal
+  labs(
+    title = "Diabetes Rate by Neighborhood (Top 20)",
+    x = "Neighborhood",  # value axis
+    y = "Percentage of adults ages 18 and older who have diabetes"        # category axis
+  ) +
+  theme_minimal()
+```
+
+Visualizing the top 20 neighborhoods with the highest diabetes rates demonstrated that East New York and Starrett City had the highest percentage of adults who have diabetes at 23.27%.
+
+## Correlation analysis
+
+```{r}
+#| output: true
+# Compute correlations
+cor_obesity <- cor(analysis_df$pct_american, analysis_df$avg_obesity)
+cor_diabetes <- cor(analysis_df$pct_american, analysis_df$avg_diabetes)
+
+# Compute p-values
+p_obesity <- cor.test(analysis_df$pct_american, analysis_df$avg_obesity)$p.value
+p_diabetes <- cor.test(analysis_df$pct_american, analysis_df$avg_diabetes)$p.value
+
+# Create a summary data frame
+cor_table <- data.frame(
+  Relationship = c("% American Cuisine vs Obesity", "% American Cuisine vs Diabetes"),
+  Correlation = c(cor_obesity, cor_diabetes),
+  P_value = c(p_obesity, p_diabetes)
+)
+
+# Print nicely
+print(cor_table)
+```
+
+**Finding**: There is no significant correlation between % of American Cuisines and Obesity and Diabetes rates in NYC Neighborhoods due to p values being greater than 0.05. Correlation between Obesity Rate and % of American Cuisines shows slightly positive, while Diabetes rate vs. % American Cuisine shows a slight negative correlation.  
+
+# Visualizations
+
+```{r}
+#| output: true
+#obesity plot
+ggplot(analysis_df, aes(x = avg_obesity, y = pct_american)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Obesity Rate vs % of American Cuisine Restaurants in NYC Neighborhoods",
+    x = "Average Obesity Rate",
+    y = "% of American Cuisine Restaurants"
+  ) +
+  theme(plot.title = element_text(size = 12))
+```
+
+The scatter plot shows the relationship between neighborhood-level obesity rates and the percentage of American cuisine restaurants in NYC. While the fitted regression line indicates a slight positive trend—suggesting that neighborhoods with higher obesity rates may have a marginally higher proportion of American cuisine restaurants—the spread of points around the line is quite wide. This high degree of variability indicates that the association is weak.
+
+Statistical testing confirms this: the correlation between obesity rate and percentage of American cuisine is not significant (p > 0.05), meaning we cannot confidently assert that the observed trend reflects a true relationship rather than random variation. Many neighborhoods with high obesity rates have relatively low percentages of American cuisine restaurants, and vice versa, which underscores the lack of a consistent pattern.
+
+Overall, this graph suggests that the presence of American cuisine restaurants alone is unlikely to be a strong predictor of neighborhood obesity rates. Other factors—such as socioeconomic conditions, access to healthy foods, lifestyle behaviors, and overall dietary patterns—are likely more influential in shaping obesity prevalence across NYC neighborhoods.
+```{r}
+#| output: true
+# diabetes plot
+ggplot(analysis_df, aes(x = avg_diabetes, y = pct_american)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  labs(
+    title = "Diabetes Rate vs % of American Cuisine Restaurants in NYC Neighborhoods",
+    x = "Average Diabetes Rate",
+    y = "% of American Cuisine Restaurants"
+  ) +
+  theme(plot.title = element_text(size = 12))
+```
+
+The scatter plot displays the relationship between neighborhood-level diabetes rates and the percentage of American cuisine restaurants in NYC. The fitted regression line shows a slight negative trend, suggesting that neighborhoods with higher diabetes rates may have a marginally lower proportion of American cuisine restaurants. However, the points are widely scattered around the line, indicating substantial variability and a weak association.
+
+Statistical testing confirms that the correlation is not significant (p > 0.05), meaning that this observed trend could easily be due to random variation rather than a meaningful relationship. Several neighborhoods with high diabetes rates still have moderate or high percentages of American cuisine restaurants, further emphasizing the lack of a clear pattern.
+
+Overall, this graph suggests that the prevalence of American cuisine restaurants is not a strong or reliable predictor of neighborhood diabetes rates.
+
+# Conclusion & Interpretation
+
+Overall, the analysis indicates that there is no statistically significant relationship between the proportion of American cuisine restaurants and neighborhood-level obesity or diabetes rates in New York City. My initial hypothesis was that the higher the obesity and diabetes rates per neighborhood, the higher % of American Cuisines there would be. While the correlation between obesity rates and the percentage of American cuisine restaurants showed slightly positive, and the relationship with diabetes rates is slightly negative, both associations are weak and not statistically significant. These findings suggest that the presence of American cuisine restaurants alone is unlikely to be a meaningful predictor of neighborhood health outcomes. Instead, obesity and diabetes rates are likely influenced by a complex combination of factors, including socioeconomic conditions, access to healthcare, physical activity environments, and broader dietary patterns that extend beyond restaurant cuisine categories which was further explored upon in our other research questions. Additionally, a key limitation of this analysis is that the American cuisine data were derived from restaurant inspection records rather than a complete census of all operating restaurants, which may not fully capture the true composition of neighborhood food environments. As a result, this analysis underscores the importance of considering both data source limitations and multiple community-level determinants when interpreting public health outcomes.
+
+
