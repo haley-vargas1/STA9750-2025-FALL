@@ -18,9 +18,7 @@ execute:
   message: false
 ---
 
-Welcome to Kitchen Nightmares! Have you ever wondered **how restaurant quality relates to community health across New York City neighborhoods?** 
-
-This report outlines the analytical workflow for our second SQ of our final project; "Do neighborhoods with higher obesity or diabetes rates have a higher percentage of American cuisines according to DOHMH data?"
+This report outlines the analytical workflow used in this project; specifically, for question 3: "Do neighborhoods with higher obesity or diabetes rates have a higher percentage of American cuisines according to DOHMH data?"
 
 # Data Acquisition and Processing - Importing Datasets
 
@@ -48,7 +46,7 @@ head(community_health_df, 5)
 
 ## Mapping ZIP Codes to neighborhood group
 
-ZIP codes from the inspection dataset are mapped to NYC neighborhood groupings from CHP data to create a consistent geographic unit across datasets. ZIP codes that were not mapped were labeled as "Other / Not Mapped."
+ZIP codes from the inspection dataset are mapped to NYC neighborhood groupings from CHP data to create a consistent geographic unit across datasets.
 
 ```{r}
 inspection_df <- inspection_df %>%
@@ -138,9 +136,6 @@ head(combined_df, 5)
 ```
 
 # Data cleaning and variable selection
-
-The dataset was filtered to include only relevant columns, cleaned by removing missing values, and key variables were renamed for clarity. Empty entries in the cuisine description field were also checked to ensure completeness before further analysis.
-
 
 ```{r}
 df_small <- combined_df[, c(
