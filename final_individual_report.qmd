@@ -18,13 +18,17 @@ execute:
   message: false
 ---
 
-Welcome to Kitchen Nightmares! Have you ever wondered **how restaurant quality relates to community health across New York City neighborhoods?** 
+Welcome to Kitchen Nightmares! Have you ever wondered **how restaurant quality relates to community health across New York City neighborhoods?**
 
 This report outlines the analytical workflow for our second SQ of our final project; "Do neighborhoods with higher obesity or diabetes rates have a higher percentage of American cuisines according to DOHMH data?"
 
 # Data Acquisition and Processing - Importing Datasets
 
 Two datasets from different formats are imported and prepared for analysis. These include [NYC Restaurant Inspection Data](https://data.cityofnewyork.us/Health/DOHMH-New-York-City-Restaurant-Inspection-Results/43nn-pn8j/about_data) and the [Community Health Profiles dataset](https://www.nyc.gov/site/doh/data/data-publications/profiles.page). Substantial pre-processing is performed to clean variables, resolve inconsistencies, and create a shared geographic identifier.
+
+We chose the DOHMH New York City Restaurant Inspection Results dataset as it shows a detailed analysis of restaurant cleanliness and compliance, providing a solid foundation for exploring patterns in restaurant quality across neighborhoods. The dataset captures all violations from inspections conducted within three years of a restaurant’s most recent inspection, covering both restaurants and college cafeterias across the city. Each entry represents a single violation and provides detailed information, including a unique restaurant ID, name, borough, address, phone number, inspection date, assigned grade, and the specific violation code and description. Restaurants may present more than one violation, or no violation at all.
+
+The second key source is the NYC Community Health Profile, which summarizes the health and socioeconomic characteristics of the city’s 59 community districts. It includes variables such as population size, education levels, unemployment, rent burden, obesity rates, diabetes prevalence, and life expectancy. Integrating this data with restaurant inspection records enables the examination of how neighborhood-level health and economic factors may relate to restaurant quality throughout New York City.
 
 ```{r}
 library(readxl)
@@ -49,6 +53,8 @@ head(community_health_df, 5)
 ## Mapping ZIP Codes to neighborhood group
 
 ZIP codes from the inspection dataset are mapped to NYC neighborhood groupings from CHP data to create a consistent geographic unit across datasets. ZIP codes that were not mapped were labeled as "Other / Not Mapped."
+
+The Community Health Profiles data contained neighborhood-level identifiers, with values such as Upper West Side, Midtown, and Bushwick, while the DOHMH inspection data identified restaurant locations by ZIP code.
 
 ```{r}
 inspection_df <- inspection_df %>%
@@ -141,7 +147,6 @@ head(combined_df, 5)
 
 The dataset was filtered to include only relevant columns, cleaned by removing missing values, and key variables were renamed for clarity. Empty entries in the cuisine description field were also checked to ensure completeness before further analysis.
 
-
 ```{r}
 df_small <- combined_df[, c(
   "neighborhood_group", "Borough", "DBA", "Obesity", "Diabetes",
@@ -167,7 +172,7 @@ sum(df_clean$Cuisine_Description == "", na.rm = TRUE)
 
 For my respective question, cuisine descriptions had to be grouped into broader categories using a custom dictionary and classification function.
 
-There are 6 categories that I grouped the cuisine descriptions into: Asian, European, American, Latin American, Beverages/Desserts and Mixed/Other. 
+There are 6 categories that I grouped the cuisine descriptions into: Asian, European, American, Latin American, Beverages/Desserts and Mixed/Other.
 
 To make the analysis for the question similar to what we had previously, (looking at fast food counts per neighborhood), I figured the American cuisine category would be fitting as it includes descriptions of fast food.
 
@@ -334,7 +339,7 @@ nycc_boundaries <- st_read("data/mp03/nycc_25c_wgs84.shp", quiet = TRUE)
 
 ### American Cuisine Composition by Neighborhood - Map (Spatial Perspective)
 
-To present the distribution of American cuisine restaurants from a spatial perspective, I adapted the workflow developed in Mini Project 3, which involved working with shapefiles and New York City Council district boundaries to analyze the spatial distribution of trees across NYC. Using a similar approach, spatial boundary data for New York City Council districts were downloaded and processed with the sf package, ensuring that all spatial data were transformed to a consistent coordinate reference system (WGS84) for accurate overlay. Neighborhood-level American cuisine percentages were then linked to approximate geographic centroids, allowing each neighborhood to be represented as a single point in geographic space. The resulting spatial dataset was converted into an sf object and visualized using ggplot2, with neighborhood points overlaid on council district boundaries and colored according to the percentage of American cuisine restaurants. A continuous color scale was applied to highlight variation across neighborhoods. 
+To present the distribution of American cuisine restaurants from a spatial perspective, I adapted the workflow developed in Mini Project 3, which involved working with shapefiles and New York City Council district boundaries to analyze the spatial distribution of trees across NYC. Using a similar approach, spatial boundary data for New York City Council districts were downloaded and processed with the sf package, ensuring that all spatial data were transformed to a consistent coordinate reference system (WGS84) for accurate overlay. Neighborhood-level American cuisine percentages were then linked to approximate neighborhood coordinates, allowing each neighborhood to be represented as a single point in geographic space. The resulting spatial dataset was converted into an sf object and visualized using ggplot2, with neighborhood points overlaid on council district boundaries and colored according to the percentage of American cuisine restaurants. A continuous color scale was applied to highlight variation across neighborhoods.
 
 ```{r fig.height=12, fig.width=16}
 #| output: true
@@ -458,6 +463,7 @@ ggplot() +
 # To make the figure larger when saving
 ggsave("NYC_AmericanCuisine_Map.png", width = 16, height = 12, dpi = 300)
 ```
+
 An interactive version of the map was created using plotly, enabling users to explore neighborhood-specific values through hover tooltips. While this method does not rely on exact neighborhood polygons, it provides an intuitive and accessible spatial summary of neighborhood-level restaurant composition.
 
 ```{r}
@@ -569,7 +575,7 @@ cor_table <- data.frame(
 print(cor_table)
 ```
 
-**Finding**: There is no significant correlation between % of American Cuisines and Obesity and Diabetes rates in NYC Neighborhoods due to p values being greater than 0.05. Correlation between Obesity Rate and % of American Cuisines shows slightly positive, while Diabetes rate vs. % American Cuisine shows a slight negative correlation.  
+**Finding**: There is no significant correlation between % of American Cuisines and Obesity and Diabetes rates in NYC Neighborhoods due to p values being greater than 0.05. Correlation between Obesity Rate and % of American Cuisines shows slightly positive, while Diabetes rate vs. % American Cuisine shows a slight negative correlation.
 
 # Visualizations
 
@@ -589,9 +595,10 @@ ggplot(analysis_df, aes(x = avg_obesity, y = pct_american)) +
 
 The scatter plot shows the relationship between neighborhood-level obesity rates and the percentage of American cuisine restaurants in NYC. While the fitted regression line indicates a slight positive trend—suggesting that neighborhoods with higher obesity rates may have a marginally higher proportion of American cuisine restaurants—the spread of points around the line is quite wide. This high degree of variability indicates that the association is weak.
 
-Statistical testing confirms this: the correlation between obesity rate and percentage of American cuisine is not significant (p > 0.05), meaning we cannot confidently assert that the observed trend reflects a true relationship rather than random variation. Many neighborhoods with high obesity rates have relatively low percentages of American cuisine restaurants, and vice versa, which underscores the lack of a consistent pattern.
+Statistical testing confirms this: the correlation between obesity rate and percentage of American cuisine is not significant (p \> 0.05), meaning we cannot confidently assert that the observed trend reflects a true relationship rather than random variation. Many neighborhoods with high obesity rates have relatively low percentages of American cuisine restaurants, and vice versa, which underscores the lack of a consistent pattern.
 
 Overall, this graph suggests that the presence of American cuisine restaurants alone is unlikely to be a strong predictor of neighborhood obesity rates. Other factors—such as socioeconomic conditions, access to healthy foods, lifestyle behaviors, and overall dietary patterns—are likely more influential in shaping obesity prevalence across NYC neighborhoods.
+
 ```{r}
 #| output: true
 # diabetes plot
@@ -608,12 +615,14 @@ ggplot(analysis_df, aes(x = avg_diabetes, y = pct_american)) +
 
 The scatter plot displays the relationship between neighborhood-level diabetes rates and the percentage of American cuisine restaurants in NYC. The fitted regression line shows a slight negative trend, suggesting that neighborhoods with higher diabetes rates may have a marginally lower proportion of American cuisine restaurants. However, the points are widely scattered around the line, indicating substantial variability and a weak association.
 
-Statistical testing confirms that the correlation is not significant (p > 0.05), meaning that this observed trend could easily be due to random variation rather than a meaningful relationship. Several neighborhoods with high diabetes rates still have moderate or high percentages of American cuisine restaurants, further emphasizing the lack of a clear pattern.
+Statistical testing confirms that the correlation is not significant (p \> 0.05), meaning that this observed trend could easily be due to random variation rather than a meaningful relationship. Several neighborhoods with high diabetes rates still have moderate or high percentages of American cuisine restaurants, further emphasizing the lack of a clear pattern.
 
 Overall, this graph suggests that the prevalence of American cuisine restaurants is not a strong or reliable predictor of neighborhood diabetes rates.
 
 # Conclusion & Interpretation
 
-Overall, the analysis indicates that there is no statistically significant relationship between the proportion of American cuisine restaurants and neighborhood-level obesity or diabetes rates in New York City. My initial hypothesis was that the higher the obesity and diabetes rates per neighborhood, the higher % of American Cuisines there would be. While the correlation between obesity rates and the percentage of American cuisine restaurants showed slightly positive, and the relationship with diabetes rates is slightly negative, both associations are weak and not statistically significant. These findings suggest that the presence of American cuisine restaurants alone is unlikely to be a meaningful predictor of neighborhood health outcomes. Instead, obesity and diabetes rates are likely influenced by a complex combination of factors, including socioeconomic conditions, access to healthcare, physical activity environments, and broader dietary patterns that extend beyond restaurant cuisine categories which was further explored upon in our other research questions. Additionally, a key limitation of this analysis is that the American cuisine data were derived from restaurant inspection records rather than a complete census of all operating restaurants, which may not fully capture the true composition of neighborhood food environments. As a result, this analysis underscores the importance of considering both data source limitations and multiple community-level determinants when interpreting public health outcomes.
+*Do neighborhoods with higher obesity or diabetes rates have a higher percentage of American cuisines according to DOHMH data?*
 
+Overall, the analysis indicates that there is no statistically significant relationship between the proportion of American cuisine restaurants and neighborhood-level obesity or diabetes rates in New York City. Thus, neighborhoods with higher obesity or diabetes rates do not necessarily have a higher percentage of American cuisines.
 
+My initial hypothesis was that the higher the obesity and diabetes rates per neighborhood, the higher % of American Cuisines there would be. While the correlation between obesity rates and the percentage of American cuisine restaurants showed slightly positive, and the relationship with diabetes rates is slightly negative, both associations are weak and not statistically significant. These findings suggest that the presence of American cuisine restaurants alone is unlikely to be a meaningful predictor of neighborhood health outcomes. Instead, obesity and diabetes rates are likely influenced by a complex combination of factors, including socioeconomic conditions, access to healthcare, physical activity environments, and broader dietary patterns that extend beyond restaurant cuisine categories which was further explored upon in our other research questions. Additionally, a key limitation of this analysis is that the American cuisine data were derived from restaurant inspection records rather than a complete census of all operating restaurants, which may not fully capture the true composition of neighborhood food environments. As a result, this analysis underscores the importance of considering both data source limitations and multiple community-level determinants when interpreting public health outcomes.
